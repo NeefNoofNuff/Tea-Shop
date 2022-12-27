@@ -29,8 +29,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
 builder.Services.AddAuthorization(options => {
-    options.AddPolicy("EditRole",
+    options.AddPolicy("RoleAccess",
         builder => builder.RequireRole("Administrator"));
+    options.AddPolicy("ProductsBaseAccess"
+        , builder => builder.RequireRole("Administrator", "Accountant", "Employee"));
 });
 
 var app = builder.Build();
