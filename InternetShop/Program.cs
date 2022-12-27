@@ -8,9 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionAuthorizationString = builder.Configuration.GetConnectionString("AuthorizationConnection");
+var shopContextConnectionString = builder.Configuration.GetConnectionString("ShopConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionAuthorizationString));
+
+builder.Services.AddDbContext<ShoppingContext>(option => 
+    option.UseSqlServer(shopContextConnectionString));
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
     

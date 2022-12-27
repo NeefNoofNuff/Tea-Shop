@@ -11,22 +11,22 @@ using TaskAuthenticationAuthorization.Models;
 
 namespace TaskAuthenticationAuthorization.Controllers
 {
-    public class ProductsController : Controller
+    public class SuperMarketsController : Controller
     {
         private readonly ShoppingContext _context;
 
-        public ProductsController(ShoppingContext context)
+        public SuperMarketsController(ShoppingContext context)
         {
             _context = context;
         }
 
-        // GET: Products
+        // GET: SuperMarkets
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(await _context.SuperMarkets.ToListAsync());
         }
 
-        // GET: Products/Details/5
+        // GET: SuperMarkets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,41 +34,41 @@ namespace TaskAuthenticationAuthorization.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
+            var superMarket = await _context.SuperMarkets
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (superMarket == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(superMarket);
         }
 
-        // GET: Products/Create
+        // GET: SuperMarkets/Create
         //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Products/Create
+        // POST: SuperMarkets/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-       // [Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Address")] SuperMarket superMarket)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(product);
+                _context.Add(superMarket);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(superMarket);
         }
 
-        // GET: Products/Edit/5
+        // GET: SuperMarkets/Edit/5
         //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         public async Task<IActionResult> Edit(int? id)
         {
@@ -77,23 +77,23 @@ namespace TaskAuthenticationAuthorization.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
-            if (product == null)
+            var superMarket = await _context.SuperMarkets.FindAsync(id);
+            if (superMarket == null)
             {
                 return NotFound();
             }
-            return View(product);
+            return View(superMarket);
         }
 
-        // POST: Products/Edit/5
+        // POST: SuperMarkets/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address")] SuperMarket superMarket)
         {
-            if (id != product.Id)
+            if (id != superMarket.Id)
             {
                 return NotFound();
             }
@@ -102,12 +102,12 @@ namespace TaskAuthenticationAuthorization.Controllers
             {
                 try
                 {
-                    _context.Update(product);
+                    _context.Update(superMarket);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!ProductExists(product.Id))
+                    if (!SuperMarketExists(superMarket.Id))
                     {
                         return NotFound();
                     }
@@ -118,10 +118,10 @@ namespace TaskAuthenticationAuthorization.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(product);
+            return View(superMarket);
         }
 
-        // GET: Products/Delete/5
+        // GET: SuperMarkets/Delete/5
         //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         public async Task<IActionResult> Delete(int? id)
         {
@@ -130,31 +130,31 @@ namespace TaskAuthenticationAuthorization.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
+            var superMarket = await _context.SuperMarkets
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (product == null)
+            if (superMarket == null)
             {
                 return NotFound();
             }
 
-            return View(product);
+            return View(superMarket);
         }
 
-        // POST: Products/Delete/5
-       // [Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        // POST: SuperMarkets/Delete/5
+        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
+            var superMarket = await _context.SuperMarkets.FindAsync(id);
+            _context.SuperMarkets.Remove(superMarket);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+        private bool SuperMarketExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _context.SuperMarkets.Any(e => e.Id == id);
         }
     }
 }
