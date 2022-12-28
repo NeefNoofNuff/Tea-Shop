@@ -1,0 +1,32 @@
+﻿@model IEnumerable<InternetShop.Models.Shop>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Map</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                Working hours
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Hours)
+                </td>
+            </tr>
+    }
+    </tbody>
+</table>
