@@ -33,6 +33,8 @@ builder.Services.AddAuthorization(options => {
         builder => builder.RequireRole("Administrator"));
     options.AddPolicy("ProductsBaseAccess"
         , builder => builder.RequireRole("Administrator", "Accountant", "Employee"));
+    options.AddPolicy("SupplierAccess",
+        builder => builder.RequireRole("Administrator", "Employee"));
 });
 
 var app = builder.Build();
