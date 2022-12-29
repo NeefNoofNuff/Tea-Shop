@@ -6,9 +6,9 @@ using InternetShop.Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TaskAuthenticationAuthorization.Models;
+using InternetShop.Models;
 
-namespace TaskAuthenticationAuthorization.Controllers
+namespace InternetShop.Controllers
 {
     public class OrderDetailsController : Controller
     {

@@ -1,4 +1,4 @@
-﻿using TaskAuthenticationAuthorization.Models;
+﻿using InternetShop.Models;
 
 namespace InternetShop.Models
 {

@@ -3,28 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using InternetShop.Data;
+using InternetShop.Data.Repository;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using TaskAuthenticationAuthorization.Models;
+using InternetShop.Models;
 
-namespace TaskAuthenticationAuthorization.Controllers
+namespace InternetShop.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly ShoppingContext _context;
+        private readonly IShoppingRepository _productsRepository;
+        private readonly ISupplierRepository _supplierRepository;
 
-        public ProductsController(ShoppingContext context)
+        public ProductsController
+            (IShoppingRepository productsRepository, ISupplierRepository supplierRepository)
         {
-            _context = context;
+            _productsRepository = productsRepository;
+            _supplierRepository = supplierRepository;
         }
         [Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Products.ToListAsync());
+            return View(await _productsRepository.GetAll());
         }
         [Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Details/5
@@ -35,8 +39,7 @@ namespace TaskAuthenticationAuthorization.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _productsRepository.Get(id);
             if (product == null)
             {
                 return NotFound();
@@ -48,7 +51,7 @@ namespace TaskAuthenticationAuthorization.Controllers
         // GET: Products/Create
         public IActionResult Create()
         {
-            ViewBag.Suppliers = _context.Suppliers.ToList();
+            ViewBag.Suppliers = _productsRepository.GetAllSuppliers();
             return View();
         }
         [Authorize(Policy = "ProductsBaseAccess")]
@@ -62,24 +65,23 @@ namespace TaskAuthenticationAuthorization.Controllers
         {
             if (!ModelState.IsValid)
             {
-                product.Supplier = await _context.Suppliers.FirstOrDefaultAsync(x => x.Id == product.SupplierId);               
+                product.Supplier = await _supplierRepository.Get(product.SupplierId);               
             }
-            _context.Add(product);
-            await _context.SaveChangesAsync();
+            await _productsRepository.Create(product);
             return RedirectToAction(nameof(Index));
         }
         [Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.Suppliers = _context.Suppliers.ToList();
+            ViewBag.Suppliers = _productsRepository.GetAllSuppliers();
 
             if (id == null)
             {
                 return NotFound();
             }
 
-            var product = await _context.Products.FindAsync(id);
+            var product = await _productsRepository.Get(id);
             if (product == null)
             {
                 return NotFound();
@@ -102,8 +104,8 @@ namespace TaskAuthenticationAuthorization.Controllers
             }
             if(!ModelState.IsValid)
             {
-                var supplier = 
-                    await _context.Suppliers.FirstOrDefaultAsync(x => x.Id == product.SupplierId);
+                var supplier =
+                    await _supplierRepository.Get(product.SupplierId);
                 if(supplier == null)
                 {
                     return NotFound();
@@ -113,8 +115,7 @@ namespace TaskAuthenticationAuthorization.Controllers
 
             try
             {
-                _context.Update(product);
-                await _context.SaveChangesAsync();
+                await _productsRepository.Update(product);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -140,8 +141,7 @@ namespace TaskAuthenticationAuthorization.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var product = await _productsRepository.Get(id);
             if (product == null)
             {
                 return NotFound();
@@ -156,15 +156,14 @@ namespace TaskAuthenticationAuthorization.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _context.Products.FindAsync(id);
-            _context.Products.Remove(product);
-            await _context.SaveChangesAsync();
+            var product = await _productsRepository.Get(id);
+            await _productsRepository.Delete(product);
             return RedirectToAction(nameof(Index));
         }
 
-        private bool ProductExists(int id)
+        public bool ProductExists(int id)
         {
-            return _context.Products.Any(e => e.Id == id);
+            return _productsRepository.Exist(id);
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace TaskAuthenticationAuthorization.Controllers
+namespace InternetShop.Controllers
 {
     public class DiscountController : Controller
     {
