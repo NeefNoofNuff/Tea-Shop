@@ -1,5 +1,6 @@
 using InternetShop.Controllers;
 using InternetShop.Data;
+using InternetShop.Data.Repository;
 using InternetShop.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -19,10 +20,16 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDbContext<ShoppingContext>(option => 
     option.UseSqlServer(shopContextConnectionString));
 
+builder.Services.AddScoped<IShoppingRepository, ShoppingRepository>();
+builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+
 builder.Services.AddControllers();
 builder.Services.AddSingleton(GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "map4nnn")));
 
 builder.Services.AddScoped<MapContext>();
+
+builder.Services.AddScoped<IShoppingRepository, ShoppingRepository>();
+builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
     
@@ -72,3 +79,4 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+public partial class Program { }

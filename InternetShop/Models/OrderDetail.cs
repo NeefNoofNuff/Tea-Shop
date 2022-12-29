@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TaskAuthenticationAuthorization.Models
+namespace InternetShop.Models
 {
     public class OrderDetail
     {

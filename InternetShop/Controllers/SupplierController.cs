@@ -1,27 +1,28 @@
 ﻿using InternetShop.Data;
+using InternetShop.Data.Repository;
 using InternetShop.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using TaskAuthenticationAuthorization.Models;
+using InternetShop.Models;
 
 namespace InternetShop.Controllers
 {
     public class SupplierController : Controller
     {   
-        private readonly ShoppingContext _shoppingContext;
+        private readonly ISupplierRepository _supplierRepository;
         //SupplierAccess
         
-        public SupplierController(ShoppingContext shoppingContext)
+        public SupplierController(ISupplierRepository supplierRepository)
         {
-            _shoppingContext = shoppingContext;
+            _supplierRepository = supplierRepository;
         }
         [Authorize(Policy = "SupplierAccess")]
         // GET: SupplierController
         public async Task<IActionResult> Index()
         {
-            return View(await _shoppingContext.Suppliers.ToListAsync());
+            return View(await _supplierRepository.GetAll());
         }
         [Authorize(Policy = "SupplierAccess")]
         // GET: SupplierController/Details/5
@@ -29,8 +30,8 @@ namespace InternetShop.Controllers
         {
             if (id == null)
                 return NotFound();
-            var supplier = 
-                await _shoppingContext.Suppliers.FirstOrDefaultAsync(supp => supp.Id == id);
+            var supplier =
+                await _supplierRepository.Get(id);
 
             if(supplier == null)
             {
@@ -57,9 +58,8 @@ namespace InternetShop.Controllers
                 return View("Index");
             }
             try
-            {   
-                await _shoppingContext.AddAsync(supplier);
-                await _shoppingContext.SaveChangesAsync();
+            {
+                await _supplierRepository.Create(supplier);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception)
@@ -74,9 +74,8 @@ namespace InternetShop.Controllers
         {
             if (id == null)
                 return NotFound();
-            var supp = 
-                await _shoppingContext.Suppliers
-                .FirstOrDefaultAsync(supp => supp.Id == id);
+            var supp =
+                await _supplierRepository.Get(id);
             return View(supp);
         }
 
@@ -93,8 +92,7 @@ namespace InternetShop.Controllers
             }
             try
             {
-                _shoppingContext.Update(supplier);
-                await _shoppingContext.SaveChangesAsync();
+                await _supplierRepository.Update(supplier);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -112,8 +110,7 @@ namespace InternetShop.Controllers
                 return NotFound();
             }
 
-            var supp = await _shoppingContext.Suppliers
-                .FirstOrDefaultAsync(supp => supp.Id == id);
+            var supp = await _supplierRepository.Get(id);
             if (supp == null)
             {
                 return NotFound();
@@ -134,8 +131,7 @@ namespace InternetShop.Controllers
             }
             try
             {
-                _shoppingContext.Suppliers.Remove(supplier);
-                await _shoppingContext.SaveChangesAsync();
+                await _supplierRepository.Delete(supplier);
                 return RedirectToAction(nameof(Index));
             }
             catch

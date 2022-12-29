@@ -548,3 +548,5 @@ C:\Users\Admin\Desktop\mio salvatore\CourseWork\InternetShop\obj\Debug\net6.0\In
 C:\Users\Admin\Desktop\mio salvatore\CourseWork\InternetShop\obj\Debug\net6.0\ref\InternetShop.dll
 C:\Users\Admin\Desktop\mio salvatore\CourseWork\InternetShop\bin\Debug\net6.0\Neo4j.Driver.dll
 C:\Users\Admin\Desktop\mio salvatore\CourseWork\InternetShop\bin\Debug\net6.0\Neo4j.Driver.Simple.dll
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\Neo4j.Driver.dll
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\Neo4j.Driver.Simple.dll
