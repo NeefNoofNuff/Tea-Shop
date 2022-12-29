@@ -1,7 +1,10 @@
 ﻿using InternetShop.Data;
 using InternetShop.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using TaskAuthenticationAuthorization.Models;
 
 namespace InternetShop.Controllers
 {
@@ -9,84 +12,88 @@ namespace InternetShop.Controllers
     {
         private readonly MapContext _context;
 
-        public List<Shop> shops { get; set; }
-
         public MapController(MapContext context)
         {
             _context = context;
-
-            shops = _context.GetAll();
         }
 
-        
-        // GET: MapController
+        // GET
         public IActionResult Index()
         {
-            return View(shops);
+            return View(_context.GetAll());
         }
 
-
-        /*// GET: MapController/Create
+        // GET
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: MapController/Create
+        // POST
+
+        [Authorize(Policy = "ProductsBaseAccess")]
         [HttpPost]
+
         [ValidateAntiForgeryToken]
-        public IActionResult Create(IFormCollection collection)
+        public IActionResult Create([Bind("Id,Name,Price")] Shop shop)
         {
-            try
+            if (ModelState.IsValid)
             {
+                _context.Add(shop);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(shop);
         }
 
-        // GET: MapController/Edit/5
-        public IActionResult Edit(int id)
+        [Authorize(Policy = "ProductsBaseAccess")]
+        // GET: Products/Edit/5
+        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        public IActionResult Edit(int? id)
         {
-            return View();
+            if (id == null) return NotFound();
+
+            var shop = _context.Find(id);
+
+            return shop == null ? NotFound() : View(shop);
         }
 
-        // POST: MapController/Edit/5
+        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost]
+        [Authorize(Policy = "ProductsBaseAccess")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, IFormCollection collection)
+        public IActionResult Edit(int id, [Bind("Id,Name,Price")] Shop shop)
         {
-            try
+            if (id != shop.Id) return NotFound();
+
+            if (ModelState.IsValid)
             {
+                _context.Update(shop);
                 return RedirectToAction(nameof(Index));
             }
-            catch
-            {
-                return View();
-            }
+            return View(shop);
         }
 
-        // GET: MapController/Delete/5
-        public IActionResult Delete(int id)
+        [Authorize(Policy = "ProductsBaseAccess")]
+        // GET: Products/Delete/5
+        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        public IActionResult Delete(int? id)
         {
-            return View();
+            if (id == null) return NotFound();
+
+            var product = _context.Find(id);
+
+            return product == null ? NotFound() : View(product);
         }
 
-        // POST: MapController/Delete/5
-        [HttpPost]
+        [Authorize(Policy = "ProductsBaseAccess")]
+        // POST: Products/Delete/5
+        // [Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult Delete(int id, IFormCollection collection)
+        public IActionResult DeleteConfirmed(int id)
         {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }*/
+            _context.Remove(id);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
