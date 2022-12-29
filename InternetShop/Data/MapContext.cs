@@ -4,8 +4,10 @@ using System.Linq;
 using System.Net;
 using InternetShop.Models;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Neo4j.Driver;
 using Newtonsoft.Json;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace InternetShop.Data
 {
@@ -17,15 +19,15 @@ namespace InternetShop.Data
         public bool Created { get; set; } = false;
         ~MapContext() => Dispose(false);
 
-        public List<Shop> Shops = new()
+        private List<Shop> Shops = new()
         {
-            new Shop("some address1", "working always"),
-            new Shop("some address2", "working always"),
-            new Shop("some address3", "working always"),
-            new Shop("some address4", "maworking alwaysn"),
-            new Shop("some address5", "working always"),
-            new Shop("some address6", "man"),
-            new Shop("some address7", "working always")
+            new Shop(0, "some address1", "working always"),
+            new Shop(1, "some address2", "working always"),
+            new Shop(2, "some address3", "working always"),
+            new Shop(3, "some address4", "maworking alwaysn"),
+            new Shop(4, "some address5", "working always"),
+            new Shop(5, "some address6", "man"),
+            new Shop(6, "some address7", "working always")
         };
 
         public MapContext(string uri = "bolt://localhost:7687", string user = "neo4j", string password = "map4nnn")
@@ -38,6 +40,27 @@ namespace InternetShop.Data
                 CreateGraph();
         }
 
+        public bool Exists(Shop shop) => Find(shop.Id) == null ? false : true;
+        public bool Exists(int? id) => Find(id) == null ? false : true;
+
+        public Shop Find(int? id)
+        {
+            using (var session = driver.Session())
+            {
+                var entity = session.WriteTransaction(x =>
+                {
+                    var result = x.Run("MATCH (s:Shop) " +
+                                        $"WHERE s.id = {id}" +
+                                        "RETURN s"
+                        );
+                    return result.Single()[0];
+                });
+
+                if (entity.GetType() == typeof(Shop)) return (Shop)entity;
+
+                else return null;
+            }
+        }
         public int CountEntities()
         {
             if (!Created) return 0;
@@ -52,9 +75,10 @@ namespace InternetShop.Data
                     var message = session.WriteTransaction(x =>
                     {
                         var result = x.Run("CREATE (s:Shop) " +
+                                            $"SET s.id = '{Shops[i].Id}'" +
                                             $"SET s.address = '{Shops[i].Address}'" +
                                             $"SET s.hours = '{Shops[i].Hours}'" +
-                                            "RETURN 'Created node' + id(s)"
+                                            $"RETURN 'Created node {Shops[i].Id}'"
                             );
                         return result.Single()[0].As<string>();
                     });
@@ -62,66 +86,54 @@ namespace InternetShop.Data
                 }
             }
         }
-        public void AddShop(Shop shop)
+        public void Add(Shop shop)
         {
+            if (Exists(shop)) return;
+
             using (var session = driver.Session())
             {
                 var message = session.WriteTransaction(x =>
                 {
                     var result = x.Run("CREATE (s:Shop) " +
+                                        $"SET s.id = '{shop.Id}'" +
                                         $"SET s.address = '{shop.Address}'" +
                                         $"SET s.hours = '{shop.Hours}'" +
-                                        "RETURN 'Created node' + id(s)"
+                                        $"RETURN 'Created node {shop.Id}'"
                         );
                     return result.Single()[0].As<string>();
                 });
                 Console.WriteLine(message);
             }
         }
-        public void RemoveShop(string address)
+        public void Remove(int? id)
         {
+            if(!Exists(id))
             using (var session = driver.Session())
             {
                 var message = session.WriteTransaction(x =>
                 {
                     var result = x.Run("MATCH (s:Shop) " +
-                                        $"WHERE s.address = {address}" +
+                                        $"WHERE s.id = {id}" +
                                         "OPTIONAL MATCH (s)-[r]-()" +
                                         "DELETE r,p" +
-                                        "RETURN 'Deleted node' + id(s)"
-                        );
-                    return result.Single()[0].As<string>();
-                });
-                Console.WriteLine(message);
-            }
-            //Shops.RemoveAll(x => x.Address == address);
-        }
-        public void EditShopsAddress(KeyValuePair<string, string> shopInfo)
-        {
-            using (var session = driver.Session())
-            {
-                var message = session.WriteTransaction(x =>
-                {
-                    var result = x.Run("MATCH (s:Shop) " +
-                                        $"WHERE s.hours = '{shopInfo.Value}s.address = {shopInfo.Key}" +
-                                        $"SET s.address = {shopInfo.Key}'" +
-                                        "RETURN 'Updated node' + id(s)"
+                                        $"RETURN 'Deleted node {id}'"
                         );
                     return result.Single()[0].As<string>();
                 });
                 Console.WriteLine(message);
             }
         }
-        public void EditShopsWorkingHours(KeyValuePair<string, string> shopInfo)
+        public void Update(Shop shop)
         {
             using (var session = driver.Session())
             {
                 var message = session.WriteTransaction(x =>
                 {
                     var result = x.Run("MATCH (s:Shop) " +
-                                        $"WHERE s.address = {shopInfo.Key}" +
-                                        $"SET s.hours = '{shopInfo.Value}'" +
-                                        "RETURN 'Updated node' + id(s)"
+                                        $"WHERE s.id == {shop.Id}" +
+                                        $"SET s.address = {shop.Address}'" +
+                                        $"SET s.hours = {shop.Hours}'" +
+                                        $"RETURN 'Updated node {shop.Id}'"
                         );
                     return result.Single()[0].As<string>();
                 });
@@ -138,11 +150,13 @@ namespace InternetShop.Data
                 var creation = session.ReadTransaction(x =>
                 {
                     var result = x.Run("MATCH (s:Shop) RETURN s");
+
                     foreach (var record in result)
                     {
                         var nodeProps = JsonConvert.SerializeObject(record[0].As<INode>().Properties);
                         shops.Add(JsonConvert.DeserializeObject<Shop>(nodeProps));
                     }
+
                     return shops;
                 });
                 return creation;
