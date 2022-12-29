@@ -31,21 +31,22 @@ namespace InternetShop.Controllers
 
         // POST
 
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         [HttpPost]
 
         [ValidateAntiForgeryToken]
-        public IActionResult Create([Bind("Id,Name,Price")] Shop shop)
+        public IActionResult Create([Bind("Id,Address,Hours")] Shop? shop)
         {
             if (ModelState.IsValid)
             {
+                if (shop == null) return View("Index");
                 _context.Add(shop);
                 return RedirectToAction(nameof(Index));
             }
             return View(shop);
         }
 
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Edit/5
         //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         public IActionResult Edit(int? id)
@@ -59,11 +60,11 @@ namespace InternetShop.Controllers
 
         //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost]
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         [ValidateAntiForgeryToken]
-        public IActionResult Edit(int id, [Bind("Id,Name,Price")] Shop shop)
+        public IActionResult Edit([Bind("Id,Address,Hours")] Shop shop)
         {
-            if (id != shop.Id) return NotFound();
+            //if (_context.Exists(shop.Id)) return NotFound();
 
             if (ModelState.IsValid)
             {
@@ -73,7 +74,7 @@ namespace InternetShop.Controllers
             return View(shop);
         }
 
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Delete/5
         //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         public IActionResult Delete(int? id)
@@ -85,11 +86,11 @@ namespace InternetShop.Controllers
             return product == null ? NotFound() : View(product);
         }
 
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         // POST: Products/Delete/5
         // [Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
+        //[ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
             _context.Remove(id);
