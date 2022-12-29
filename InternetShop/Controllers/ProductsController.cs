@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using InternetShop.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TaskAuthenticationAuthorization.Models;
@@ -45,34 +46,34 @@ namespace TaskAuthenticationAuthorization.Controllers
         }
         [Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Create
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         public IActionResult Create()
         {
+            ViewBag.Suppliers = _context.Suppliers.ToList();
             return View();
         }
         [Authorize(Policy = "ProductsBaseAccess")]
         // POST: Products/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        // [Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost]
 
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price")] Product product)
+        public async Task<IActionResult> Create([Bind("Id,Name,Price,UnitInStock,SupplierId")] Product product)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(product);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                product.Supplier = await _context.Suppliers.FirstOrDefaultAsync(x => x.Id == product.SupplierId);               
             }
-            return View(product);
+            _context.Add(product);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
         [Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Edit/5
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         public async Task<IActionResult> Edit(int? id)
         {
+            ViewBag.Suppliers = _context.Suppliers.ToList();
+
             if (id == null)
             {
                 return NotFound();
@@ -93,34 +94,41 @@ namespace TaskAuthenticationAuthorization.Controllers
         [HttpPost]
         [Authorize(Policy = "ProductsBaseAccess")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price")] Product product)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,UnitInStock,SupplierId")] Product product)
         {
             if (id != product.Id)
             {
                 return NotFound();
             }
-
-            if (ModelState.IsValid)
+            if(!ModelState.IsValid)
             {
-                try
+                var supplier = 
+                    await _context.Suppliers.FirstOrDefaultAsync(x => x.Id == product.SupplierId);
+                if(supplier == null)
                 {
-                    _context.Update(product);
-                    await _context.SaveChangesAsync();
+                    return NotFound();
                 }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ProductExists(product.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                product.Supplier = supplier;
             }
-            return View(product);
+
+            try
+            {
+                _context.Update(product);
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!ProductExists(product.Id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+            return RedirectToAction(nameof(Index));
+
         }
         [Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Delete/5
