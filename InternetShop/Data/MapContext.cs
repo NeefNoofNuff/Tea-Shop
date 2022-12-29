@@ -45,20 +45,26 @@ namespace InternetShop.Data
 
         public Shop Find(int? id)
         {
+            var shops = new List<Shop>();
+
             using (var session = driver.Session())
             {
-                var entity = session.WriteTransaction(x =>
+                var entities = session.WriteTransaction(x =>
                 {
                     var result = x.Run("MATCH (s:Shop) " +
-                                        $"WHERE s.id = {id}" +
+                                        $"WHERE s.id = '{id}' " +
                                         "RETURN s"
-                        );
-                    return result.Single()[0];
+                                    );
+                    foreach (var record in result)
+                    {
+                        var nodeProps = JsonConvert.SerializeObject(record[0].As<INode>().Properties);
+                        shops.Add(JsonConvert.DeserializeObject<Shop>(nodeProps));
+                    }
+                    return shops;
                 });
 
-                if (entity.GetType() == typeof(Shop)) return (Shop)entity;
-
-                else return null;
+                if (!entities.Any()) return null;
+                else return entities.First();
             }
         }
         public int CountEntities()
@@ -107,15 +113,14 @@ namespace InternetShop.Data
         }
         public void Remove(int? id)
         {
-            if(!Exists(id))
             using (var session = driver.Session())
             {
                 var message = session.WriteTransaction(x =>
                 {
                     var result = x.Run("MATCH (s:Shop) " +
-                                        $"WHERE s.id = {id}" +
-                                        "OPTIONAL MATCH (s)-[r]-()" +
-                                        "DELETE r,p" +
+                                        $"WHERE s.id = '{id}' " +
+                                        "OPTIONAL MATCH (s)-[r]-() " +
+                                        "DELETE r,s " +
                                         $"RETURN 'Deleted node {id}'"
                         );
                     return result.Single()[0].As<string>();
@@ -130,9 +135,9 @@ namespace InternetShop.Data
                 var message = session.WriteTransaction(x =>
                 {
                     var result = x.Run("MATCH (s:Shop) " +
-                                        $"WHERE s.id == {shop.Id}" +
-                                        $"SET s.address = {shop.Address}'" +
-                                        $"SET s.hours = {shop.Hours}'" +
+                                        $"WHERE s.id = '{shop.Id}' " +
+                                        $"SET s.address = '{shop.Address}' " +
+                                        $"SET s.hours = '{shop.Hours}' " +
                                         $"RETURN 'Updated node {shop.Id}'"
                         );
                     return result.Single()[0].As<string>();

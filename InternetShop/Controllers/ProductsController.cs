@@ -20,13 +20,13 @@ namespace TaskAuthenticationAuthorization.Controllers
         {
             _context = context;
         }
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products
         public async Task<IActionResult> Index()
         {
             return View(await _context.Products.ToListAsync());
         }
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -44,14 +44,14 @@ namespace TaskAuthenticationAuthorization.Controllers
 
             return View(product);
         }
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Create
         public IActionResult Create()
         {
             ViewBag.Suppliers = _context.Suppliers.ToList();
             return View();
         }
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         // POST: Products/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
@@ -68,7 +68,7 @@ namespace TaskAuthenticationAuthorization.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -92,7 +92,7 @@ namespace TaskAuthenticationAuthorization.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost]
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,UnitInStock,SupplierId")] Product product)
         {
@@ -130,7 +130,7 @@ namespace TaskAuthenticationAuthorization.Controllers
             return RedirectToAction(nameof(Index));
 
         }
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Delete/5
         //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         public async Task<IActionResult> Delete(int? id)
@@ -149,7 +149,7 @@ namespace TaskAuthenticationAuthorization.Controllers
 
             return View(product);
         }
-        [Authorize(Policy = "ProductsBaseAccess")]
+        //[Authorize(Policy = "ProductsBaseAccess")]
         // POST: Products/Delete/5
         // [Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost, ActionName("Delete")]
