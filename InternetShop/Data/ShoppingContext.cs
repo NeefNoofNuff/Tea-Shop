@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using TaskAuthenticationAuthorization.Models;
+using InternetShop.Models;
 using InternetShop.Models;
 
 namespace InternetShop.Data
