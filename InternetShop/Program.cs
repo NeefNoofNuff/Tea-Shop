@@ -20,6 +20,9 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDbContext<ShoppingContext>(option => 
     option.UseSqlServer(shopContextConnectionString));
 
+builder.Services.AddScoped<IShoppingRepository, ShoppingRepository>();
+builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+
 builder.Services.AddControllers();
 builder.Services.AddSingleton(GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "map4nnn")));
 
