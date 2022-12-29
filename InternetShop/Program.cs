@@ -4,18 +4,25 @@ using InternetShop.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Neo4j.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 var connectionAuthorizationString = builder.Configuration.GetConnectionString("AuthorizationConnection");
 var shopContextConnectionString = builder.Configuration.GetConnectionString("ShopConnection");
+var mapContextConnectionString = builder.Configuration.GetConnectionString("NeO4jConnectionSettings");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionAuthorizationString));
 
 builder.Services.AddDbContext<ShoppingContext>(option => 
     option.UseSqlServer(shopContextConnectionString));
+
+builder.Services.AddControllers();
+builder.Services.AddSingleton(GraphDatabase.Driver("bolt://localhost:7687", AuthTokens.Basic("neo4j", "map4nnn")));
+
+builder.Services.AddScoped<MapContext>();
 
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
     

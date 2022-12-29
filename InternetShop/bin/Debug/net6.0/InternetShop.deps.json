@@ -14,7 +14,8 @@
           "Microsoft.EntityFrameworkCore": "6.0.12",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.12",
           "Microsoft.EntityFrameworkCore.Tools": "6.0.12",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.11"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.11",
+          "Neo4j.Driver.Simple": "5.3.0"
         },
         "runtime": {
           "InternetShop.dll": {}
@@ -1338,6 +1339,30 @@
           }
         }
       },
+      "Neo4j.Driver/5.3.0": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "5.0.0",
+          "System.ValueTuple": "4.5.0"
+        },
+        "runtime": {
+          "lib/net6.0/Neo4j.Driver.dll": {
+            "assemblyVersion": "5.3.7.0",
+            "fileVersion": "5.0.0.0"
+          }
+        }
+      },
+      "Neo4j.Driver.Simple/5.3.0": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "5.0.0",
+          "Neo4j.Driver": "5.3.0"
+        },
+        "runtime": {
+          "lib/net6.0/Neo4j.Driver.Simple.dll": {
+            "assemblyVersion": "5.3.7.0",
+            "fileVersion": "5.0.0.0"
+          }
+        }
+      },
       "NETStandard.Library/1.6.1": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.1",
@@ -2295,6 +2320,7 @@
           "System.Runtime": "4.3.0"
         }
       },
+      "System.ValueTuple/4.5.0": {},
       "System.Windows.Extensions/6.0.0": {
         "dependencies": {
           "System.Drawing.Common": "6.0.0"
@@ -2867,6 +2893,20 @@
       "sha512": "sha512-hqTM5628jSsQiv+HGpiq3WKBl2c8v1KZfby2J6Pr7pEPlK9waPdgEO6b8A/+/xn/yZ9ulv8HuqK71ONy2tg67A==",
       "path": "microsoft.win32.systemevents/6.0.0",
       "hashPath": "microsoft.win32.systemevents.6.0.0.nupkg.sha512"
+    },
+    "Neo4j.Driver/5.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tREfCEjtpRFpDXsr2kd8ulcI8N+6k/23KrU0INkQbovU3cP1CjJadu/w1zttyXCuTQAh7Yuwe3mlUN6o4GuGwg==",
+      "path": "neo4j.driver/5.3.0",
+      "hashPath": "neo4j.driver.5.3.0.nupkg.sha512"
+    },
+    "Neo4j.Driver.Simple/5.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lvZYagAPQqvAeCcWRZ/Oem1iGIpI/zQqpEJqvRldIW3/YwY4faHmVQhgE48lKOsG1pH5FTIRV6vgaq+J8ZbJQA==",
+      "path": "neo4j.driver.simple/5.3.0",
+      "hashPath": "neo4j.driver.simple.5.3.0.nupkg.sha512"
     },
     "NETStandard.Library/1.6.1": {
       "type": "package",
@@ -3602,6 +3642,13 @@
       "sha512": "sha512-Z6YfyYTCg7lOZjJzBjONJTFKGN9/NIYKSxhU5GRd+DTwHSZyvWp1xuI5aR+dLg+ayyC5Xv57KiY4oJ0tMO89fQ==",
       "path": "system.threading.timer/4.3.0",
       "hashPath": "system.threading.timer.4.3.0.nupkg.sha512"
+    },
+    "System.ValueTuple/4.5.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ==",
+      "path": "system.valuetuple/4.5.0",
+      "hashPath": "system.valuetuple.4.5.0.nupkg.sha512"
     },
     "System.Windows.Extensions/6.0.0": {
       "type": "package",

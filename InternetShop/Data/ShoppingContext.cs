@@ -174,7 +174,7 @@ namespace InternetShop.Data
                     new Product
                     {
                         Id = 204,
-                        Name = "Milk OLoon Tea",
+                        Name = "Milk OLoong Tea",
                         Price = 111.85,
                         UnitInStock = 50.0,
                         SupplierId = 4

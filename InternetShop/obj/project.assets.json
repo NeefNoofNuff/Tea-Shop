@@ -1784,6 +1784,40 @@
           }
         }
       },
+      "Neo4j.Driver/5.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "5.0.0",
+          "System.ValueTuple": "4.5.0"
+        },
+        "compile": {
+          "lib/net6.0/Neo4j.Driver.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Neo4j.Driver.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Neo4j.Driver.Simple/5.3.0": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "5.0.0",
+          "Neo4j.Driver": "5.3.0"
+        },
+        "compile": {
+          "lib/net6.0/Neo4j.Driver.Simple.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Neo4j.Driver.Simple.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "NETStandard.Library/1.6.1": {
         "type": "package",
         "dependencies": {
@@ -3622,6 +3656,15 @@
           "ref/netstandard1.2/System.Threading.Timer.dll": {
             "related": ".xml"
           }
+        }
+      },
+      "System.ValueTuple/4.5.0": {
+        "type": "package",
+        "compile": {
+          "ref/netcoreapp2.0/_._": {}
+        },
+        "runtime": {
+          "lib/netcoreapp2.0/_._": {}
         }
       },
       "System.Windows.Extensions/6.0.0": {
@@ -6206,6 +6249,38 @@
         "runtimes/win/lib/netcoreapp3.1/Microsoft.Win32.SystemEvents.dll",
         "runtimes/win/lib/netcoreapp3.1/Microsoft.Win32.SystemEvents.xml",
         "useSharedDesignerContext.txt"
+      ]
+    },
+    "Neo4j.Driver/5.3.0": {
+      "sha512": "tREfCEjtpRFpDXsr2kd8ulcI8N+6k/23KrU0INkQbovU3cP1CjJadu/w1zttyXCuTQAh7Yuwe3mlUN6o4GuGwg==",
+      "type": "package",
+      "path": "neo4j.driver/5.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Neo4j-icon-color.png",
+        "lib/net6.0/Neo4j.Driver.dll",
+        "lib/net6.0/Neo4j.Driver.xml",
+        "lib/netstandard2.0/Neo4j.Driver.dll",
+        "lib/netstandard2.0/Neo4j.Driver.xml",
+        "neo4j.driver.5.3.0.nupkg.sha512",
+        "neo4j.driver.nuspec"
+      ]
+    },
+    "Neo4j.Driver.Simple/5.3.0": {
+      "sha512": "lvZYagAPQqvAeCcWRZ/Oem1iGIpI/zQqpEJqvRldIW3/YwY4faHmVQhgE48lKOsG1pH5FTIRV6vgaq+J8ZbJQA==",
+      "type": "package",
+      "path": "neo4j.driver.simple/5.3.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Neo4j-icon-color.png",
+        "lib/net6.0/Neo4j.Driver.Simple.dll",
+        "lib/net6.0/Neo4j.Driver.Simple.xml",
+        "lib/netstandard2.0/Neo4j.Driver.Simple.dll",
+        "lib/netstandard2.0/Neo4j.Driver.Simple.xml",
+        "neo4j.driver.simple.5.3.0.nupkg.sha512",
+        "neo4j.driver.simple.nuspec"
       ]
     },
     "NETStandard.Library/1.6.1": {
@@ -10282,6 +10357,50 @@
         "system.threading.timer.nuspec"
       ]
     },
+    "System.ValueTuple/4.5.0": {
+      "sha512": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ==",
+      "type": "package",
+      "path": "system.valuetuple/4.5.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.TXT",
+        "THIRD-PARTY-NOTICES.TXT",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net461/System.ValueTuple.dll",
+        "lib/net461/System.ValueTuple.xml",
+        "lib/net47/System.ValueTuple.dll",
+        "lib/net47/System.ValueTuple.xml",
+        "lib/netcoreapp2.0/_._",
+        "lib/netstandard1.0/System.ValueTuple.dll",
+        "lib/netstandard1.0/System.ValueTuple.xml",
+        "lib/netstandard2.0/_._",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "lib/portable-net40+sl4+win8+wp8/System.ValueTuple.xml",
+        "lib/uap10.0.16299/_._",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "ref/MonoAndroid10/_._",
+        "ref/MonoTouch10/_._",
+        "ref/net461/System.ValueTuple.dll",
+        "ref/net47/System.ValueTuple.dll",
+        "ref/netcoreapp2.0/_._",
+        "ref/netstandard2.0/_._",
+        "ref/portable-net40+sl4+win8+wp8/System.ValueTuple.dll",
+        "ref/uap10.0.16299/_._",
+        "ref/xamarinios10/_._",
+        "ref/xamarinmac20/_._",
+        "ref/xamarintvos10/_._",
+        "ref/xamarinwatchos10/_._",
+        "system.valuetuple.4.5.0.nupkg.sha512",
+        "system.valuetuple.nuspec",
+        "useSharedDesignerContext.txt",
+        "version.txt"
+      ]
+    },
     "System.Windows.Extensions/6.0.0": {
       "sha512": "IXoJOXIqc39AIe+CIR7koBtRGMiCt/LPM3lI+PELtDIy9XdyeSrwXFdWV9dzJ2Awl0paLWUaknLxFQ5HpHZUog==",
       "type": "package",
@@ -10456,27 +10575,28 @@
       "Microsoft.EntityFrameworkCore >= 6.0.12",
       "Microsoft.EntityFrameworkCore.SqlServer >= 6.0.12",
       "Microsoft.EntityFrameworkCore.Tools >= 6.0.12",
-      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.11"
+      "Microsoft.VisualStudio.Web.CodeGeneration.Design >= 6.0.11",
+      "Neo4j.Driver.Simple >= 5.3.0"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\tysya\\.nuget\\packages\\": {},
+    "C:\\Users\\Admin\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop\\InternetShop.csproj",
+      "projectUniqueName": "C:\\Users\\Admin\\Desktop\\mio salvatore\\CourseWork\\InternetShop\\InternetShop.csproj",
       "projectName": "InternetShop",
-      "projectPath": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop\\InternetShop.csproj",
-      "packagesPath": "C:\\Users\\tysya\\.nuget\\packages\\",
-      "outputPath": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop\\obj\\",
+      "projectPath": "C:\\Users\\Admin\\Desktop\\mio salvatore\\CourseWork\\InternetShop\\InternetShop.csproj",
+      "packagesPath": "C:\\Users\\Admin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Admin\\Desktop\\mio salvatore\\CourseWork\\InternetShop\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\tysya\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -10533,6 +10653,10 @@
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": {
             "target": "Package",
             "version": "[6.0.11, )"
+          },
+          "Neo4j.Driver.Simple": {
+            "target": "Package",
+            "version": "[5.3.0, )"
           }
         },
         "imports": [
@@ -10554,7 +10678,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
