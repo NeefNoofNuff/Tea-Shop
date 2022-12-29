@@ -8,9 +8,15 @@ using Microsoft.Extensions.DependencyInjection;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+var connectionAuthorizationString = builder.Configuration.GetConnectionString("AuthorizationConnection");
+var shopContextConnectionString = builder.Configuration.GetConnectionString("ShopConnection");
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(connectionString));
+    options.UseSqlServer(connectionAuthorizationString));
+
+builder.Services.AddDbContext<ShoppingContext>(option => 
+    option.UseSqlServer(shopContextConnectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
     
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
@@ -21,6 +27,15 @@ builder.Services.AddIdentity<IdentityUser, IdentityRole>(options => options.Sign
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddRazorPages();
+
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("RoleAccess",
+        builder => builder.RequireRole("Administrator"));
+    options.AddPolicy("ProductsBaseAccess"
+        , builder => builder.RequireRole("Administrator", "Accountant", "Employee"));
+    options.AddPolicy("SupplierAccess",
+        builder => builder.RequireRole("Administrator", "Employee"));
+});
 
 var app = builder.Build();
 
