@@ -13,6 +13,7 @@ namespace InternetShop.Data.Repository
 
         public Task<IEnumerable<Product>> GetAll();
         public IEnumerable<Supplier> GetAllSuppliers();
+        public Task<bool> ReduceUnitStockAsync(Product product, double unit);
         public bool Exist(int id);
     }
 }

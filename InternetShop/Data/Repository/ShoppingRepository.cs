@@ -52,6 +52,22 @@ namespace InternetShop.Data.Repository
 
         public IEnumerable<Supplier> GetAllSuppliers() => _shoppingContext.Suppliers.ToList();
 
+        public async Task<bool> ReduceUnitStockAsync(Product product, double unit)
+        {
+            var newStock = product.UnitInStock - unit;
+            if (newStock < 0)
+            {
+                return false;
+            }
+            else
+            {
+                product.UnitInStock = newStock;
+                _shoppingContext.Update(product);
+                await _shoppingContext.SaveChangesAsync();
+                return true;
+            }
+        }
+
         public async Task Update(Product product)
         {
             _shoppingContext.Update(product);
