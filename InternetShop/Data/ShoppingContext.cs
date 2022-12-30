@@ -7,7 +7,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using InternetShop.Models;
-using InternetShop.Models;
 
 namespace InternetShop.Data
 {
@@ -16,7 +15,6 @@ namespace InternetShop.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<SuperMarket> SuperMarkets { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
 
         public ShoppingContext(DbContextOptions<ShoppingContext> options)
@@ -27,9 +25,9 @@ namespace InternetShop.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Order>()
-                .HasMany(order => order.OrderDetails)
-                .WithOne(detail => detail.Order)
-                .HasForeignKey(key => key.OrderId);
+                .HasOne(order => order.Product)
+                .WithMany(product => product.Orders)
+                .HasForeignKey(key => key.ProductId);
 
             modelBuilder.Entity<Supplier>()
                 .Property(prop => prop.FirstName)
@@ -49,15 +47,6 @@ namespace InternetShop.Data
             modelBuilder.Entity<Supplier>()
                 .Property(prop => prop.PhoneNumber)
                 .IsRequired();
-
-            modelBuilder.Entity<OrderDetail>()
-                .Property(prop => prop.Quantity)
-                .IsRequired();
-
-            modelBuilder.Entity<OrderDetail>()
-                .HasOne(detail => detail.Product)
-                .WithMany(products => products.OrderDetails)
-                .HasForeignKey(detail => detail.ProductId);
 
             modelBuilder.Entity<Product>()
                  .HasOne(product => product.Supplier)

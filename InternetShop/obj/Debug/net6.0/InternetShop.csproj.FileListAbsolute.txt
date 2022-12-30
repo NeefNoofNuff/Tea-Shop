@@ -550,3 +550,7 @@ C:\Users\Admin\Desktop\mio salvatore\CourseWork\InternetShop\bin\Debug\net6.0\Ne
 C:\Users\Admin\Desktop\mio salvatore\CourseWork\InternetShop\bin\Debug\net6.0\Neo4j.Driver.Simple.dll
 D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\Neo4j.Driver.dll
 D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\Neo4j.Driver.Simple.dll
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\CouchDB.NET.dll
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\Flurl.dll
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\Flurl.Http.dll
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
