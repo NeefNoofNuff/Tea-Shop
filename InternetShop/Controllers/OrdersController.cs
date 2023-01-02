@@ -62,13 +62,13 @@ namespace InternetShop.Controllers
             var reductionResult = _shoppingRepository.ReduceUnitStockAsync(order.Product, order.UnitsCount);
             if (!Task.FromResult(reductionResult).Result.Result)
             {
-                return RedirectToAction(nameof(Index));
+                return Redirect("~/Products/Index");
             }
 
             _context.Add(order);
             await InvoiceFactory.Create(order);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return Redirect("~/Products/Index");
         }
     }
 }
