@@ -35,14 +35,7 @@ namespace InternetShopTesting
                 UnitInStock = 50.0,
                 SupplierId = 1
             };
-            //new Product
-            //{
-            //    Id = 560,
-            //    Name = "Garnet Black Tea",
-            //    Price = 86.85,
-            //    UnitInStock = 150.0,
-            //    SupplierId = 1
-            //}
+
             _productMock.Setup(x => x.Get(testid)).Returns(Task.FromResult(testProduct));
 
             var controller = GetController();
@@ -64,17 +57,17 @@ namespace InternetShopTesting
                 UnitInStock = 50.0,
                 SupplierId = 1
             };
-            _productMock.Setup(x => x.Delete(It.IsAny<Product>())).Returns(Task.CompletedTask);
+            _productMock.Setup(x => x.Create(It.IsAny<Product>())).Returns(Task.CompletedTask);
             var controller = GetController();
 
-            var result = await controller.Delete(testProduct.Id);
+            var result = await controller.Create(testProduct);
 
-            var deleting = controller.ProductExists(testProduct.Id);
+            //var deleting = controller.ProductExists(testProduct.Id);
 
-            Assert.False(deleting);
+            Assert.NotNull(result);
         }
         [Fact]
-        public async Task Deleted_Supplier()
+        public async Task Deleted_Product()
         {
             _supplierMock = new Mock<ISupplierRepository>();
             _productMock = new Mock<IShoppingRepository>();
@@ -97,24 +90,24 @@ namespace InternetShopTesting
 
         [Fact]
 
-        public async Task GetAllSuppliers()
+        public async Task GetAllProducts()
         {
             _productMock = new Mock<IShoppingRepository>();
             _supplierMock = new Mock<ISupplierRepository>();
-            Supplier testSupplier = new Supplier
+            Product testProduct = new Product
             {
-                Id = 7,
-                FirstName = "Herbie",
-                LastName = "Haley",
-                CompanyName = "Tea Side",
-                PhoneNumber = "0964512756"
+                Id = 817,
+                Name = "Shen Puer Tea «Lapis Dragon»",
+                Price = 223,
+                UnitInStock = 50.0,
+                SupplierId = 1
             };
 
-            List<Supplier> testlist = new List<Supplier>();
-            testlist.Add(testSupplier);
+            List<Product> testlist = new List<Product>();
+            testlist.Add(testProduct);
 
-            _productMock.Setup(x => x.GetAllSuppliers())
-                .Returns((IEnumerable<Supplier>)testlist);
+            _productMock.Setup(x => x.GetAll())
+                .Returns(Task.FromResult((IEnumerable<Product>)testlist));
 
             var controller = GetController();
 

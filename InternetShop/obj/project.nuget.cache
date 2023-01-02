@@ -1,10 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "AED8ZO9+LHPx7re4xGbUSX6mFkPokks1dHR7SyZELWXcL/6eftaT0/Qjzz/O/8lyZ3L4rs0j80M/9jhRnX3BAA==",
+  "dgSpecHash": "2HUDFpTdzvOax4leODtS/ibYJ7NpONiEPGlemTjCsjy+5vcqNsWsr8/ycL7pyUhWxs9Q/FVsZ4plZezg3ZBd6g==",
   "success": true,
   "projectFilePath": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop\\InternetShop.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\tysya\\.nuget\\packages\\humanizer.core\\2.8.26\\humanizer.core.2.8.26.nupkg.sha512",
+    "C:\\Users\\tysya\\.nuget\\packages\\couchdb.net\\3.3.1\\couchdb.net.3.3.1.nupkg.sha512",
+    "C:\\Users\\tysya\\.nuget\\packages\\flurl\\3.0.2\\flurl.3.0.2.nupkg.sha512",
+    "C:\\Users\\tysya\\.nuget\\packages\\flurl.http\\3.2.0\\flurl.http.3.2.0.nupkg.sha512",
+    "C:\\Users\\tysya\\.nuget\\packages\\humanizer.core\\2.11.10\\humanizer.core.2.11.10.nupkg.sha512",
     "C:\\Users\\tysya\\.nuget\\packages\\messagepack\\2.1.152\\messagepack.2.1.152.nupkg.sha512",
     "C:\\Users\\tysya\\.nuget\\packages\\messagepack.annotations\\2.1.152\\messagepack.annotations.2.1.152.nupkg.sha512",
     "C:\\Users\\tysya\\.nuget\\packages\\messagepackanalyzer\\2.1.152\\messagepackanalyzer.2.1.152.nupkg.sha512",
@@ -81,6 +84,7 @@
     "C:\\Users\\tysya\\.nuget\\packages\\neo4j.driver.simple\\5.3.0\\neo4j.driver.simple.5.3.0.nupkg.sha512",
     "C:\\Users\\tysya\\.nuget\\packages\\netstandard.library\\1.6.1\\netstandard.library.1.6.1.nupkg.sha512",
     "C:\\Users\\tysya\\.nuget\\packages\\newtonsoft.json\\13.0.1\\newtonsoft.json.13.0.1.nupkg.sha512",
+    "C:\\Users\\tysya\\.nuget\\packages\\newtonsoft.json.bson\\1.0.2\\newtonsoft.json.bson.1.0.2.nupkg.sha512",
     "C:\\Users\\tysya\\.nuget\\packages\\nuget.common\\6.3.1\\nuget.common.6.3.1.nupkg.sha512",
     "C:\\Users\\tysya\\.nuget\\packages\\nuget.configuration\\6.3.1\\nuget.configuration.6.3.1.nupkg.sha512",
     "C:\\Users\\tysya\\.nuget\\packages\\nuget.dependencyresolver.core\\6.3.1\\nuget.dependencyresolver.core.6.3.1.nupkg.sha512",
