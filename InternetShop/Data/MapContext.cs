@@ -21,13 +21,13 @@ namespace InternetShop.Data
 
         private List<Shop> Shops = new()
         {
-            new Shop(0, "some address1", "working always"),
-            new Shop(1, "some address2", "working always"),
-            new Shop(2, "some address3", "working always"),
-            new Shop(3, "some address4", "maworking alwaysn"),
-            new Shop(4, "some address5", "working always"),
-            new Shop(5, "some address6", "man"),
-            new Shop(6, "some address7", "working always")
+            new Shop(0, "Peremohy Ave, 1, Kyiv", "Mon-Fr 10:00 - 21:00, Sat-Sun 11:00-19:00"),
+            new Shop(1, "Volodymyrska St, 60, Kyiv", "Mon-Fr 10:00 - 21:00, Sat-Sun 11:00-19:00"),
+            new Shop(2, "Pushkinska St, 20, Kyiv", "Mon-Fr 10:00 - 21:00, Sat-Sun 11:00-19:00"),
+            new Shop(3, "Budivelnykiv St, 40, Kyiv", "Mon-Fr 10:00 - 21:00, Sat-Sun 11:00-19:00"),
+            new Shop(4, "Velyka Vasylkivska St, 5, Kyiv", "Mon-Fr 10:00 - 21:00, Sat-Sun 11:00-19:00"),
+            new Shop(5, "Politekhnichna St, 31, Kyiv", "Mon-Fr 10:00 - 20:00, Sat-Sun 11:00-19:00"),
+            new Shop(6, "Andriivska St, 8-9, Kyiv", "Mon-Fr 10:00 - 20:00, Sat-Sun 11:00-18:00")
         };
 
         public MapContext(string uri = "bolt://localhost:7687", string user = "neo4j", string password = "map4nnn")
@@ -167,72 +167,6 @@ namespace InternetShop.Data
                 return creation;
             }
         }
-
-        /*public void Create_Relation(string name1, string name2)
-        {
-            using (var session = driver.Session())
-            {
-                var creation = session.WriteTransaction(x =>
-                {
-                    var result = x.Run($"MATCH (p1: Man), (p2: Woman) " +
-                                        $"WHERE p1.name = '{name1}' AND p2.name = '{name2}'" +
-                                        "create (p1)-[r:friends]->(p2)" +
-                                        "RETURN p1.name + ' & '+ p2.name + ' are friends.'"
-                        );
-                    return result.Single()[0].As<string>();
-                });
-                Console.WriteLine(creation);
-            }
-        }
-
-        public Dictionary<string, int> Test_Length()
-        {
-            Dictionary<string, int> result = new Dictionary<string, int>();
-
-            using (var session = driver.Session())
-            {
-                for (int i = 7; i < 11; i++)
-                {
-                    for (int j = i + 1; j < 12; j++)
-                    {
-                        var length = session.WriteTransaction(x =>
-                        {
-                            var result = x.Run("MATCH (start:Woman {" +
-                                                $"name:'{Shops[i].Key}'" +
-                                                "}), (end: Woman {" +
-                                                $"name:'{Shops[j].Key}'" +
-                                                "}), p = shortestPath((start)-[:friends*]-(end))" +
-                                                "RETURN length(p); ");
-                            return result.Single()[0].As<string>();
-                        }
-                        );
-                        string message = $"Woman {Shops[i].Key} and Woman {Shops[j].Key}";
-                        result.TryAdd(message, int.Parse(length));
-                    }
-                }
-
-                for (int i = 0; i < 6; i++)
-                {
-                    for (int j = i + 1; j <= 6; j++)
-                    {
-                        var length = session.WriteTransaction(tx =>
-                        {
-                            var result = tx.Run("MATCH (start:Man {" +
-                                                $"name:'{Shops[i].Key}'" +
-                                                "}),(end:Man {" +
-                                                $"name: '{Shops[j].Key}'" +
-                                                "}), p = shortestPath((start)-[:friends*]-(end))" +
-                                                " RETURN length(p); ");
-                            return result.Single()[0].As<string>();
-                        }
-                        );
-                        string message = $"Man {Shops[i].Key} and Man {Shops[j].Key}";
-                        result.TryAdd(message, int.Parse(length));
-                    }
-                }
-            }
-            return result;
-        }*/
         public void Dispose()
         {
             Dispose(true);

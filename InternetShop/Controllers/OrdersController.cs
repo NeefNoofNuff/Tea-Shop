@@ -26,7 +26,6 @@ namespace InternetShop.Controllers
             _shoppingRepository = shoppingRepository;
         }
 
-        // GET: Orders
         public async Task<IActionResult> Index()
         {
             return View("create");
