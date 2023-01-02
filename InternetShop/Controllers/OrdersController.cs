@@ -21,7 +21,6 @@ namespace InternetShop.Controllers
             _context = context;
         }
 
-        // GET: Orders
         public async Task<IActionResult> Index()
         {
             //var orders = _context.Orders.Include(o => o.Customer).Include(o => o.SuperMarket)

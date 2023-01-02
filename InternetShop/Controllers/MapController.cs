@@ -16,19 +16,16 @@ namespace InternetShop.Controllers
             _context = context;
         }
 
-        // GET
         public IActionResult Index()
         {
-            return View(_context.GetAll());
+            return View(_context.GetAll().ToList().OrderBy(x => x.Id));
         }
 
-        // GET
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST
 
         //[Authorize(Policy = "ProductsBaseAccess")]
         [HttpPost]
@@ -46,7 +43,6 @@ namespace InternetShop.Controllers
         }
 
         //[Authorize(Policy = "ProductsBaseAccess")]
-        // GET: Products/Edit/5
         //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         public IActionResult Edit(int? id)
         {
@@ -63,8 +59,6 @@ namespace InternetShop.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult Edit([Bind("Id,Address,Hours")] Shop shop)
         {
-            //if (_context.Exists(shop.Id)) return NotFound();
-
             if (ModelState.IsValid)
             {
                 _context.Update(shop);
@@ -74,7 +68,6 @@ namespace InternetShop.Controllers
         }
 
         //[Authorize(Policy = "ProductsBaseAccess")]
-        // GET: Products/Delete/5
         //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         public IActionResult Delete(int? id)
         {
@@ -86,10 +79,9 @@ namespace InternetShop.Controllers
         }
 
         //[Authorize(Policy = "ProductsBaseAccess")]
-        // POST: Products/Delete/5
         // [Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int id)
         {
             _context.Remove(id);
