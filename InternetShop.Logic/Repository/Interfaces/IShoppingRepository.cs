@@ -1,8 +1,7 @@
 ﻿using InternetShop.Models;
 using Microsoft.AspNetCore.Mvc;
-using InternetShop.Models;
 
-namespace InternetShop.Data.Repository
+namespace InternetShop.Logic.Repository.Interfaces
 {
     public interface IShoppingRepository
     {

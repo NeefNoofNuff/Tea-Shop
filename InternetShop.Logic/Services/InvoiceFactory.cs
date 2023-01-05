@@ -1,15 +1,20 @@
 ﻿using InternetShop.Data;
+using InternetShop.Logic.Repository.Interfaces;
 using InternetShop.Models;
 
 namespace InternetShop.Services
 {
-    public static class InvoiceFactory
+    public class InvoiceFactory
     {
-        public static async Task Create(Order order)
+        private readonly IInvoiceRepository _invoiceRepository;
+        public InvoiceFactory(IInvoiceRepository invoiceRepository)
         {
-            await using var context = new InvoiceContext();
-
-            await context.Invoices.AddAsync(new Invoice(order));
+            _invoiceRepository = invoiceRepository;
+        }
+        public async Task Create(Order order)
+        {
+            using var context = _invoiceRepository;
+            await context.Create(new Invoice(order));
         }
     }
 }

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InternetShop.Models;
-using InternetShop.Data.Repository;
 using InternetShop.Services;
+using InternetShop.Logic.Repository.Interfaces;
 
 namespace InternetShop.Controllers
 {
@@ -13,21 +13,23 @@ namespace InternetShop.Controllers
     {
         private readonly ShoppingContext _context;
         private readonly IShoppingRepository _shoppingRepository;
+        private readonly InvoiceFactory _invoiceFactory;
 
         public OrdersController
-            (ShoppingContext context, IShoppingRepository shoppingRepository)
+            (ShoppingContext context, IShoppingRepository shoppingRepository, InvoiceFactory invoiceFactory)
         {
             _context = context;
             _shoppingRepository = shoppingRepository;
+            _invoiceFactory = invoiceFactory;
         }
 
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
             return View("create");
         }
 
         // GET: Orders/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
@@ -49,8 +51,13 @@ namespace InternetShop.Controllers
         {
             ViewBag.Products = new SelectList(_context.Products, "Id", "Name");
             if (!ModelState.IsValid)
-            {
-                order.Product = _context.Products.Find(order.ProductId);
+            {   
+                var product = _context.Products.Find(order.ProductId);
+                if(product == null)
+                {
+                    return RedirectToAction(nameof(NotPlaced));
+                }
+                order.Product = product;
                 var priceCalc = order.Product.Price * order.UnitsCount;
                 order.Price = priceCalc.ToString();
             }
@@ -59,9 +66,8 @@ namespace InternetShop.Controllers
             {
                 return RedirectToAction(nameof(NotPlaced));
             }
-
             _context.Add(order);
-            await InvoiceFactory.Create(order);
+            await _invoiceFactory.Create(order);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Placed));
         }

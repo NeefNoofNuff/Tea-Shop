@@ -1,5 +1,5 @@
 using InternetShop.Controllers;
-using InternetShop.Data.Repository;
+using InternetShop.Logic.Repository.Interfaces;
 using InternetShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;

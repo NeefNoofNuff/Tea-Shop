@@ -1,4 +1,5 @@
-﻿using InternetShop.Models;
+﻿using InternetShop.Logic.Repository.Interfaces;
+using InternetShop.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
