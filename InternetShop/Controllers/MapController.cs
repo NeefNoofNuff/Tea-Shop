@@ -1,9 +1,6 @@
 ﻿using InternetShop.Data;
 using InternetShop.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace InternetShop.Controllers
 {

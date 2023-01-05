@@ -9,6 +9,9 @@
       "InternetShop/1.0.0": {
         "dependencies": {
           "CouchDB.NET": "3.3.1",
+          "FluentValidation": "11.4.0",
+          "InternetShop.Data": "1.0.0",
+          "InternetShop.Logic": "1.0.0",
           "Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore": "6.0.8",
           "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.12",
           "Microsoft.AspNetCore.Identity.UI": "6.0.12",
@@ -16,6 +19,7 @@
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.12",
           "Microsoft.EntityFrameworkCore.Tools": "6.0.12",
           "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.11",
+          "Microsoft.jQuery.Unobtrusive.Validation": "4.0.0",
           "Neo4j.Driver.Simple": "5.3.0",
           "Newtonsoft.Json.Bson": "1.0.2"
         },
@@ -32,6 +36,14 @@
           "lib/netstandard2.1/CouchDB.NET.dll": {
             "assemblyVersion": "1.0.0.0",
             "fileVersion": "1.0.0.0"
+          }
+        }
+      },
+      "FluentValidation/11.4.0": {
+        "runtime": {
+          "lib/net6.0/FluentValidation.dll": {
+            "assemblyVersion": "11.0.0.0",
+            "fileVersion": "11.4.0.0"
           }
         }
       },
@@ -62,6 +74,12 @@
             "assemblyVersion": "2.11.0.0",
             "fileVersion": "2.11.10.32403"
           }
+        }
+      },
+      "jQuery/1.8.0": {},
+      "jQuery.Validation/1.8.0.1": {
+        "dependencies": {
+          "jQuery": "1.8.0"
         }
       },
       "MessagePack/2.1.152": {
@@ -1197,6 +1215,12 @@
             "assemblyVersion": "6.8.0.0",
             "fileVersion": "6.8.0.11012"
           }
+        }
+      },
+      "Microsoft.jQuery.Unobtrusive.Validation/4.0.0": {
+        "dependencies": {
+          "jQuery": "1.8.0",
+          "jQuery.Validation": "1.8.0.1"
         }
       },
       "Microsoft.NET.StringTools/17.3.2": {
@@ -2420,6 +2444,28 @@
           "System.Threading": "4.3.0",
           "System.Xml.ReaderWriter": "4.3.0"
         }
+      },
+      "InternetShop.Data/1.0.0": {
+        "dependencies": {
+          "CouchDB.NET": "3.3.1",
+          "Microsoft.AspNetCore.Identity.EntityFrameworkCore": "6.0.12",
+          "Microsoft.EntityFrameworkCore": "6.0.12",
+          "Microsoft.EntityFrameworkCore.Relational": "6.0.12",
+          "Microsoft.EntityFrameworkCore.SqlServer": "6.0.12",
+          "Neo4j.Driver.Simple": "5.3.0"
+        },
+        "runtime": {
+          "InternetShop.Data.dll": {}
+        }
+      },
+      "InternetShop.Logic/1.0.0": {
+        "dependencies": {
+          "FluentValidation": "11.4.0",
+          "InternetShop.Data": "1.0.0"
+        },
+        "runtime": {
+          "InternetShop.Logic.dll": {}
+        }
       }
     }
   },
@@ -2435,6 +2481,13 @@
       "sha512": "sha512-Z5IeckSUFng6BOkVw1SH5foMf3w+KCMxp2M/prylMgUdfT3hrdlsvpwBiiLR/m7Xibf/H/OxWWG1ugJwa8pxmw==",
       "path": "couchdb.net/3.3.1",
       "hashPath": "couchdb.net.3.3.1.nupkg.sha512"
+    },
+    "FluentValidation/11.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WZJyrNf4suiaI6avVG32W9kmBLC3+V5rDTcLeRJjeU4tDmTyDIOz1459DzCKppXs34YpZg9rCUzDY3M4XxG7Ug==",
+      "path": "fluentvalidation/11.4.0",
+      "hashPath": "fluentvalidation.11.4.0.nupkg.sha512"
     },
     "Flurl/3.0.2": {
       "type": "package",
@@ -2456,6 +2509,20 @@
       "sha512": "sha512-4TBsHSXPocdsEB5dewIHeKykTzIz5Ui7ouXw4JsUGI+ax4jjviVJVD7+gsPCNyA+b3de2EjYI+jcEq8I/1ZFSQ==",
       "path": "humanizer.core/2.11.10",
       "hashPath": "humanizer.core.2.11.10.nupkg.sha512"
+    },
+    "jQuery/1.8.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-laDFQRJrIRHT0Z0GVYklMt3bE0iu0MZFJwHwg21kt3SHb7Bj8TdNiM3K+ZdK1DzB8ZxKy8z7NkJvwMas+dmHBw==",
+      "path": "jquery/1.8.0",
+      "hashPath": "jquery.1.8.0.nupkg.sha512"
+    },
+    "jQuery.Validation/1.8.0.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-cSBTW8FiNcFYy7h8jY38ffnJGia25HQH/z1TP3f8OKZhn1ZSGS7Bebz9nMevKbtsAjzHhDFp/Cq0cT+ixwiB5A==",
+      "path": "jquery.validation/1.8.0.1",
+      "hashPath": "jquery.validation.1.8.0.1.nupkg.sha512"
     },
     "MessagePack/2.1.152": {
       "type": "package",
@@ -2862,6 +2929,13 @@
       "sha512": "sha512-gTqzsGcmD13HgtNePPcuVHZ/NXWmyV+InJgalW/FhWpII1D7V1k0obIseGlWMeA4G+tZfeGMfXr0klnWbMR/mQ==",
       "path": "microsoft.identitymodel.tokens/6.8.0",
       "hashPath": "microsoft.identitymodel.tokens.6.8.0.nupkg.sha512"
+    },
+    "Microsoft.jQuery.Unobtrusive.Validation/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-RJ1eBcFIwHINVocYtOlmBQd21jGgHOHGe7TLzmQ9VMRMUqAlJoxyCw1AayBkdExqrEZt0Wz9uaZiDX75NHQmSw==",
+      "path": "microsoft.jquery.unobtrusive.validation/4.0.0",
+      "hashPath": "microsoft.jquery.unobtrusive.validation.4.0.0.nupkg.sha512"
     },
     "Microsoft.NET.StringTools/17.3.2": {
       "type": "package",
@@ -3744,6 +3818,16 @@
       "sha512": "sha512-5zJ0XDxAIg8iy+t4aMnQAu0MqVbqyvfoUVl1yDV61xdo3Vth45oA2FoY4pPkxYAH5f8ixpmTqXeEIya95x0aCQ==",
       "path": "system.xml.xdocument/4.3.0",
       "hashPath": "system.xml.xdocument.4.3.0.nupkg.sha512"
+    },
+    "InternetShop.Data/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "InternetShop.Logic/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

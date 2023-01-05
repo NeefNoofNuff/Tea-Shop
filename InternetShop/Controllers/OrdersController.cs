@@ -1,12 +1,7 @@
-﻿//using System;
-//using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InternetShop.Data;
+﻿using InternetShop.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using InternetShop.Models;
 using InternetShop.Data.Repository;
 using InternetShop.Services;
@@ -59,16 +54,26 @@ namespace InternetShop.Controllers
                 var priceCalc = order.Product.Price * order.UnitsCount;
                 order.Price = priceCalc.ToString();
             }
-            var reductionResult = _shoppingRepository.ReduceUnitStockAsync(order.Product, order.UnitsCount);
-            if (!Task.FromResult(reductionResult).Result.Result)
+            var reductionResult = await _shoppingRepository.ReduceUnitStockAsync(order.Product, order.UnitsCount);
+            if (!reductionResult)
             {
-                return Redirect("~/Products/Index");
+                return RedirectToAction(nameof(NotPlaced));
             }
 
             _context.Add(order);
             await InvoiceFactory.Create(order);
             await _context.SaveChangesAsync();
-            return Redirect("~/Products/Index");
+            return RedirectToAction(nameof(Placed));
+        }
+
+        public IActionResult Placed()
+        {
+            return View();
+        }
+
+        public IActionResult NotPlaced()
+        {
+            return View();
         }
     }
 }

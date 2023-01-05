@@ -41,10 +41,6 @@ namespace InternetShop.Data.Repository
         public Task<Product> Get(int? id)
         {   
             var product = _shoppingContext.Products.FirstOrDefault(prod => prod.Id == id);
-            if(product == null)
-            {
-                throw new NullReferenceException("Product not found!");
-            }
             return Task.FromResult(product);
         }
 

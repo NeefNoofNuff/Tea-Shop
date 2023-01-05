@@ -554,3 +554,14 @@ D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\CouchDB.NET
 D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\Flurl.dll
 D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\Flurl.Http.dll
 D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\Newtonsoft.Json.Bson.dll
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\FluentValidation.dll
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\InternetShop.Data.deps.json
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\InternetShop.Data.runtimeconfig.json
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\InternetShop.Data.exe
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\InternetShop.Data.dll
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\InternetShop.Data.pdb
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\InternetShop.Logic.deps.json
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\InternetShop.Logic.runtimeconfig.json
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\InternetShop.Logic.exe
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\InternetShop.Logic.dll
+D:\savings\git\CourseWork\InternetShop\InternetShop\bin\Debug\net6.0\InternetShop.Logic.pdb

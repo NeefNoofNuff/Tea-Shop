@@ -9,6 +9,6 @@ namespace InternetShop.Models
         public string LastName { get; set; }
         public string CompanyName { get; set; }
         public string PhoneNumber { get; set; }
-        public ICollection<Product> Products { get; set; }
+        public ICollection<Product>? Products { get; set; }
     }
 }

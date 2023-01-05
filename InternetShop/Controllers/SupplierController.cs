@@ -115,8 +115,8 @@ namespace InternetShop.Controllers
             {
                 return NotFound();
             }
-
-            return View(supp);
+            await _supplierRepository.Delete(supp);
+            return RedirectToAction(nameof(Index));
         }
 
         // POST: SupplierController/Delete/5

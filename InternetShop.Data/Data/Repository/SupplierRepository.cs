@@ -19,6 +19,16 @@ namespace InternetShop.Data.Repository
 
         public async Task Delete(Supplier supplier)
         {
+            var productsWithSupplier = _shoppingContext.Products
+                .Where(product => product.SupplierId == supplier.Id)
+                .ToList();
+
+            foreach (var product in productsWithSupplier)
+            {
+                _shoppingContext.Products.Remove(product);
+            }
+
+            _shoppingContext.Suppliers.Remove(supplier);
             await _shoppingContext.SaveChangesAsync();
         }
 

@@ -14,6 +14,7 @@ namespace InternetShop.Models
         public DateTime OrderDate { get; set; }
         public int CustomerId { get; set; }
         public int ProductId { get; set; }
+        public string ProductName { get;set; }
 
         public Invoice(Order order)
         {
@@ -25,6 +26,7 @@ namespace InternetShop.Models
             UnitsCount = order.UnitsCount;
             OrderDate = DateTime.Now;
             ProductId = order.ProductId;
+            ProductName = order.Product.Name;
         }
     }
 }
