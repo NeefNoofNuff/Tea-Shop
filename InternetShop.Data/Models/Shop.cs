@@ -5,7 +5,6 @@ namespace InternetShop.Models
 {
     public class Shop
     {
-        //[Required]
         public int Id { get; set; }
         public string Address { get; set; }
 

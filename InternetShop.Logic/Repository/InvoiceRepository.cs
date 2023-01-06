@@ -1,9 +1,8 @@
-﻿using InternetShop.Logic.Repository.Interfaces;
+﻿using InternetShop.Data;
+using InternetShop.Logic.Repository.Interfaces;
 using InternetShop.Models;
-using System.ComponentModel;
-using System.Reflection.Metadata;
 
-namespace InternetShop.Data.Data.Repository
+namespace InternetShop.Logic.Repository
 {
     public class InvoiceRepository : IInvoiceRepository, IDisposable
     {
@@ -18,7 +17,7 @@ namespace InternetShop.Data.Data.Repository
         {
             await _context.Invoices.AddAsync(invoice);
         }
-        
+
         public async Task<Invoice> Get(string id)
         {
             var result = await _context.Invoices.FindAsync(id);
@@ -29,14 +28,14 @@ namespace InternetShop.Data.Data.Repository
             return result;
         }
         public void Dispose()
-        {   
+        {
             Dispose(disposing: true);
             GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {

@@ -1,10 +1,6 @@
-﻿using InternetShop.Data;
-using InternetShop.Models;
+﻿using InternetShop.Models;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using InternetShop.Models;
 using InternetShop.Logic.Repository.Interfaces;
 
 namespace InternetShop.Controllers

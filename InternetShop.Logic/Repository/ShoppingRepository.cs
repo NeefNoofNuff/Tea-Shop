@@ -1,9 +1,9 @@
 ﻿using InternetShop.Logic.Repository.Interfaces;
 using InternetShop.Models;
-using Microsoft.AspNetCore.Mvc;
+using InternetShop.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace InternetShop.Data.Repository
+namespace InternetShop.Logic.Repository
 {
     public class ShoppingRepository : IShoppingRepository
     {   
@@ -42,6 +42,10 @@ namespace InternetShop.Data.Repository
         public Task<Product> Get(int? id)
         {   
             var product = _shoppingContext.Products.FirstOrDefault(prod => prod.Id == id);
+            if(product == null)
+            {
+                throw new NullReferenceException("Product not found!");
+            }
             return Task.FromResult(product);
         }
 

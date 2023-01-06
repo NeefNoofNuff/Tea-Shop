@@ -1,6 +1,6 @@
 using InternetShop.Data;
-using InternetShop.Data.Data.Repository;
 using InternetShop.Data.Repository;
+using InternetShop.Logic.Repository;
 using InternetShop.Logic.Repository.Interfaces;
 using InternetShop.Services;
 using Microsoft.AspNetCore.Identity;
@@ -55,6 +55,8 @@ builder.Services.AddAuthorization(options => {
         , builder => builder.RequireRole("Administrator", "Accountant", "Employee"));
     options.AddPolicy("SupplierAccess",
         builder => builder.RequireRole("Administrator", "Employee"));
+    options.AddPolicy("WriteAccess"
+        , builder => builder.RequireRole("Administrator"));
 });
 
 var app = builder.Build();
