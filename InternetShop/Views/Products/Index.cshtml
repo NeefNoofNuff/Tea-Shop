@@ -1,9 +1,9 @@
-﻿@model X.PagedList.IPagedList<InternetShop.Models.Product>
+﻿@model X.PagedList.IPagedList<InternetShop.Data.Models.Product>
 
 @using X.PagedList.Mvc.Core
 
 <link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-<link href="~/css/site.css" rel="stylesheet"/>
+<link href="~/Content/site.css" rel="stylesheet" type="text/css" />
 
 @{
     ViewData["Title"] = "Products";
@@ -68,6 +68,7 @@
     </tbody>
 </table>
 <br />
+
 Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
 
 @Html.PagedListPager(Model, page => Url.Action("Index",

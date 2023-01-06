@@ -1,4 +1,4 @@
-﻿using InternetShop.Models;
+﻿using InternetShop.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using InternetShop.Logic.Repository.Interfaces;

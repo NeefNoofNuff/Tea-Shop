@@ -1,5 +1,5 @@
-﻿using InternetShop.Data;
-using InternetShop.Models;
+﻿using InternetShop.Data.Models;
+using InternetShop.Data.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

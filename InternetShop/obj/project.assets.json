@@ -3900,10 +3900,7 @@
         },
         "runtime": {
           "bin/placeholder/InternetShop.Data.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        }
       },
       "InternetShop.Logic/1.0.0": {
         "type": "project",
@@ -3917,10 +3914,7 @@
         },
         "runtime": {
           "bin/placeholder/InternetShop.Logic.dll": {}
-        },
-        "frameworkReferences": [
-          "Microsoft.AspNetCore.App"
-        ]
+        }
       }
     }
   },
@@ -10980,13 +10974,13 @@
     },
     "InternetShop.Data/1.0.0": {
       "type": "project",
-      "path": "../InternetShop.Data/InternetShop.Data.csproj",
-      "msbuildProject": "../InternetShop.Data/InternetShop.Data.csproj"
+      "path": "../InternetShop.Data1/InternetShop.Data.csproj",
+      "msbuildProject": "../InternetShop.Data1/InternetShop.Data.csproj"
     },
     "InternetShop.Logic/1.0.0": {
       "type": "project",
-      "path": "../InternetShop.Logic/InternetShop.Logic.csproj",
-      "msbuildProject": "../InternetShop.Logic/InternetShop.Logic.csproj"
+      "path": "../InternetShop.Logic1/InternetShop.Logic.csproj",
+      "msbuildProject": "../InternetShop.Logic1/InternetShop.Logic.csproj"
     }
   },
   "projectFileDependencyGroups": {
@@ -11038,11 +11032,11 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop.Data\\InternetShop.Data.csproj": {
-              "projectPath": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop.Data\\InternetShop.Data.csproj"
+            "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop.Data1\\InternetShop.Data.csproj": {
+              "projectPath": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop.Data1\\InternetShop.Data.csproj"
             },
-            "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop.Logic\\InternetShop.Logic.csproj": {
-              "projectPath": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop.Logic\\InternetShop.Logic.csproj"
+            "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop.Logic1\\InternetShop.Logic.csproj": {
+              "projectPath": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop.Logic1\\InternetShop.Logic.csproj"
             }
           }
         }

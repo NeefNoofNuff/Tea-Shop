@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using InternetShop.Models;
+using InternetShop.Data.Models;
 using InternetShop.Logic.Repository.Interfaces;
 using X.PagedList;
 

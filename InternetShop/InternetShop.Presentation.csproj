@@ -24,8 +24,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\InternetShop.Data\InternetShop.Data.csproj" />
-    <ProjectReference Include="..\InternetShop.Logic\InternetShop.Logic.csproj" />
+    <ProjectReference Include="..\InternetShop.Data1\InternetShop.Data.csproj" />
+    <ProjectReference Include="..\InternetShop.Logic1\InternetShop.Logic.csproj" />
   </ItemGroup>
 
 </Project>
