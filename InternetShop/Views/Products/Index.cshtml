@@ -2,9 +2,6 @@
 
 @using X.PagedList.Mvc.Core
 
-<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
-<link href="~/Content/site.css" rel="stylesheet" type="text/css" />
-
 @{
     ViewData["Title"] = "Products";
 }
@@ -74,12 +71,10 @@ Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.Page
 @Html.PagedListPager(Model, page => Url.Action("Index",
 new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
 
-    
-
-<div class="container">
+<div class="row">
     @foreach (var item in Model)
     {
-        <div class="grid-item">
+        <div class="col-3">
             <p>@Html.DisplayFor(modelItem => item.Name)</p>
             <p>@Html.DisplayFor(modelItem => item.Price)</p>
             <p>@Html.DisplayFor(modelItem => item.UnitInStock)</p>

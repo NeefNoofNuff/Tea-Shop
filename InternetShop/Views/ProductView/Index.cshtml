@@ -1,0 +1,15 @@
+﻿@model X.PagedList.IPagedList<InternetShop.Data.Models.Product>
+<!--here to write a page for a customer-->
+
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-3">
+            <p>@Html.DisplayFor(modelItem => item.Name)</p>
+            <p>@Html.DisplayFor(modelItem => item.Price)</p>
+            <p>@Html.DisplayFor(modelItem => item.UnitInStock)</p>
+            <p>@Html.DisplayFor(modelItem => item.SupplierId)</p>
+        </div>
+    }
+</div>
+
