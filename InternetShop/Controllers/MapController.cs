@@ -1,5 +1,6 @@
-﻿using InternetShop.Data;
-using InternetShop.Models;
+﻿using InternetShop.Data.Models;
+using InternetShop.Data.Context;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace InternetShop.Controllers
@@ -24,9 +25,8 @@ namespace InternetShop.Controllers
         }
 
 
-        //[Authorize(Policy = "ProductsBaseAccess")]
         [HttpPost]
-
+        [Authorize(Policy = "WriteAccess")]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,Address,Hours")] Shop? shop)
         {

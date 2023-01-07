@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using InternetShop.Data;
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using InternetShop.Models;
+using InternetShop.Data.Models;
 using InternetShop.Logic.Repository.Interfaces;
+using X.PagedList;
 
 namespace InternetShop.Controllers
 {
@@ -24,13 +18,47 @@ namespace InternetShop.Controllers
             _productsRepository = productsRepository;
             _supplierRepository = supplierRepository;
         }
-        //[Authorize(Policy = "ProductsBaseAccess")]
-        // GET: Products
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index
+            (string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(await _productsRepository.GetAll());
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.PriceSortParm = sortOrder == "Price" ? "price_desc" : "Date";
+            var products = await _productsRepository.GetAll();
+            if(searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+            ViewBag.CurrentFilter = searchString;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                products = products
+                    .Where(product => product.Name.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    products = products.OrderByDescending(s => s.Name);
+                    break;
+                case "Price":
+                    products = products.OrderBy(s => s.Price);
+                    break;
+                case "price_desc":
+                    products = products.OrderByDescending(s => s.Price);
+                    break;
+                default:
+                    products = products.OrderBy(s => s.Name);
+                    break;
+            }
+            int pageSize = 5;
+            int pageNumber = (page ?? 1);
+            return View(products.ToPagedList(pageNumber, pageSize));
         }
-        //[Authorize(Policy = "ProductsBaseAccess")]
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -47,19 +75,16 @@ namespace InternetShop.Controllers
 
             return View(product);
         }
-        //[Authorize(Policy = "ProductsBaseAccess")]
+        [Authorize(Policy = "WriteAccess")]
         // GET: Products/Create
         public IActionResult Create()
         {
             ViewBag.Suppliers = _productsRepository.GetAllSuppliers();
             return View();
         }
-        //[Authorize(Policy = "ProductsBaseAccess")]
         // POST: Products/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-
+        [Authorize(Policy = "WriteAccess")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Name,Price,UnitInStock,SupplierId")] Product product)
         {
@@ -70,7 +95,7 @@ namespace InternetShop.Controllers
             await _productsRepository.Create(product);
             return RedirectToAction(nameof(Index));
         }
-        //[Authorize(Policy = "ProductsBaseAccess")]
+        [Authorize(Policy = "WriteAccess")]
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -90,11 +115,8 @@ namespace InternetShop.Controllers
         }
 
         // POST: Products/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost]
-        //[Authorize(Policy = "ProductsBaseAccess")]
+        [Authorize(Policy = "WriteAccess")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Price,UnitInStock,SupplierId")] Product product)
         {
@@ -131,9 +153,8 @@ namespace InternetShop.Controllers
             return RedirectToAction(nameof(Index));
 
         }
-        //[Authorize(Policy = "ProductsBaseAccess")]
+        [Authorize(Policy = "WriteAccess")]
         // GET: Products/Delete/5
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -149,9 +170,8 @@ namespace InternetShop.Controllers
 
             return View(product);
         }
-        //[Authorize(Policy = "ProductsBaseAccess")]
         // POST: Products/Delete/5
-        // [Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        [Authorize(Policy = "WriteAccess")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

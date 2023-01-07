@@ -1,10 +1,10 @@
-﻿@model IEnumerable<InternetShop.Models.Supplier>
+﻿@model IEnumerable<InternetShop.Data.Models.Supplier>
 
 @{
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Suppliers</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -24,7 +24,6 @@
             <th>
                 @Html.DisplayNameFor(model => model.PhoneNumber)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>

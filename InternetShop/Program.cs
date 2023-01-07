@@ -1,11 +1,11 @@
-using InternetShop.Data;
-using InternetShop.Data.Data.Repository;
-using InternetShop.Data.Repository;
+using InternetShop.Data.Context;
+using InternetShop.Logic.Repository;
 using InternetShop.Logic.Repository.Interfaces;
-using InternetShop.Services;
+using InternetShop.Logic.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Neo4j.Driver;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -55,6 +55,8 @@ builder.Services.AddAuthorization(options => {
         , builder => builder.RequireRole("Administrator", "Accountant", "Employee"));
     options.AddPolicy("SupplierAccess",
         builder => builder.RequireRole("Administrator", "Employee"));
+    options.AddPolicy("WriteAccess"
+        , builder => builder.RequireRole("Administrator"));
 });
 
 var app = builder.Build();

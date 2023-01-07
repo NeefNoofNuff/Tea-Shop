@@ -15,7 +15,7 @@ namespace InternetShop.Controllers
         {
             this.roleManager = roleManager;
         }
-
+        [HttpGet("Roles")]
         [Authorize(Policy = "RoleAccess")]
         public IActionResult Index()
         {

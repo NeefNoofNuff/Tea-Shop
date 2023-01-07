@@ -1,34 +1,11 @@
 {
   "Version": 1,
-  "Hash": "9Mga+kwyYu+T7ajEtrNrrq5JQjQ4bcXolcopUzSWL4E=",
+  "Hash": "NeU4AWzfRLiZuytkwW4Cw5lQaRP4DqclsRb0Z8a9+E0=",
   "Source": "InternetShop.Presentation",
   "BasePath": "_content/InternetShop.Presentation",
   "Mode": "Default",
   "ManifestType": "Build",
-  "ReferencedProjectsConfiguration": [
-    {
-      "Identity": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop.Data\\InternetShop.Data.csproj",
-      "Version": 2,
-      "Source": "InternetShop.Data",
-      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
-      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
-      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier",
-      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
-      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
-      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier"
-    },
-    {
-      "Identity": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop.Logic\\InternetShop.Logic.csproj",
-      "Version": 2,
-      "Source": "InternetShop.Logic",
-      "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
-      "AdditionalPublishProperties": "Configuration=Debug;Platform=AnyCPU",
-      "AdditionalPublishPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier",
-      "GetBuildAssetsTargets": "GetCurrentProjectBuildStaticWebAssetItems",
-      "AdditionalBuildProperties": "Configuration=Debug;Platform=AnyCPU",
-      "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier"
-    }
-  ],
+  "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [
     {
       "Name": "InternetShop.Presentation\\wwwroot",
