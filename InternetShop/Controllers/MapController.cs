@@ -79,7 +79,7 @@ namespace InternetShop.Controllers
         // [Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(int id)
+        public IActionResult DeleteConfirmed(int? id)
         {
             _context.Remove(id);
             return RedirectToAction(nameof(Index));
