@@ -46,8 +46,9 @@ namespace InternetShop.Controllers
         }
 
         // POST: Orders/Create
+        //Bind("Id,OrderDate,FirstName,LastName,PhoneNumber,ProductId,UnitsCount")
         public async Task<IActionResult> Create(int id, 
-            [Bind("Id,OrderDate,FirstName,LastName,PhoneNumber,ProductId,UnitsCount")] Order order)
+            [FromForm] Order order)
         {
             ViewBag.Products = new SelectList(_context.Products, "Id", "Name");
             if (!ModelState.IsValid)
@@ -57,15 +58,15 @@ namespace InternetShop.Controllers
                 {
                     return RedirectToAction(nameof(NotPlaced));
                 }
-                order.Product = product;
-                var priceCalc = order.Product.Price * order.UnitsCount;
-                order.Price = priceCalc.ToString();
+                //order.Product = product;
+                //var priceCalc = order.Product.Price * order.UnitsCount;
+                //order.Price = priceCalc.ToString();
             }
-            var reductionResult = await _shoppingRepository.ReduceUnitStockAsync(order.Product, order.UnitsCount);
-            if (!reductionResult)
-            {
-                return RedirectToAction(nameof(NotPlaced));
-            }
+            //var reductionResult = await _shoppingRepository.ReduceUnitStockAsync(order.Product, order.UnitsCount);
+            //if (!reductionResult)
+            //{
+            //    return RedirectToAction(nameof(NotPlaced));
+            //}
             _context.Add(order);
             await _invoiceFactory.Create(order);
             await _context.SaveChangesAsync();

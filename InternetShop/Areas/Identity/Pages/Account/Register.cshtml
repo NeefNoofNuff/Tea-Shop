@@ -2,9 +2,13 @@
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
-    var roles = (List<IdentityRole>)ViewData["roles"];
+    var result = (List<IdentityRole>)ViewData["roles"];
+    if (result == null)
+    {
+        throw new ArgumentNullException();
+    }
+    var roles = result;
 }
-
 <h1>@ViewData["Title"]</h1>
 
 <div class="row">

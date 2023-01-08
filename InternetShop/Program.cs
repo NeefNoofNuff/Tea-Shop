@@ -16,7 +16,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionAuthorizationString));
 
 builder.Services.AddDbContext<ShoppingContext>(option => 
-    option.UseSqlServer(shopContextConnectionString));
+    option.UseSqlServer(shopContextConnectionString, b => b.MigrationsAssembly("InternetShop.Presentation")));
 
 builder.Services.AddScoped<IShoppingRepository, ShoppingRepository>();
 builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();

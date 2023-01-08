@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Neo4j.Driver;
+using System.ComponentModel.DataAnnotations;
 
 namespace InternetShop.Data.Models
 {
@@ -16,6 +17,6 @@ namespace InternetShop.Data.Models
         public DateTime OrderDate { get; set; }
         public int CustomerId { get; set; }
         public int ProductId { get; set; } 
-        public Product Product { get; set; }
+        public ICollection<Product> Products { get; set; }
     }
 }
