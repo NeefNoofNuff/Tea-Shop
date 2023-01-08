@@ -52,9 +52,6 @@ namespace InternetShop.Presentation.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
                     b.Property<float>("UnitsCount")
                         .HasColumnType("real");
 

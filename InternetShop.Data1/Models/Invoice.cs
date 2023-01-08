@@ -13,7 +13,7 @@ namespace InternetShop.Data.Models
         public float UnitsCount { get; set; }
         public DateTime OrderDate { get; set; }
         public int CustomerId { get; set; }
-        public int ProductIds { get; set; }
+        public List<int> ProductIds { get; set; }
         public List<string> ProductNames { get;set; }
 
         public Invoice(Order order)
@@ -25,7 +25,7 @@ namespace InternetShop.Data.Models
             PhoneNumber = order.PhoneNumber;
             UnitsCount = order.UnitsCount;
             OrderDate = DateTime.Now;
-            ProductIds = order.ProductId;
+            ProductIds = order.ProductsId;
             ProductNames = order.Products.Select(p => p.Name).ToList();
         }
     }

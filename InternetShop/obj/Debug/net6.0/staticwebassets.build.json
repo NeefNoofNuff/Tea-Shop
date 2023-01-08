@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "NeU4AWzfRLiZuytkwW4Cw5lQaRP4DqclsRb0Z8a9+E0=",
+  "Hash": "KDtcsj4j4fnl5hnzTpFmFUjjqmdy+ZDDWwUrau3T4qY=",
   "Source": "InternetShop.Presentation",
   "BasePath": "_content/InternetShop.Presentation",
   "Mode": "Default",
@@ -1069,6 +1069,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\InternetShop.Presentation.bundle.scp.css"
+    },
+    {
+      "Identity": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop\\wwwroot\\css\\home.css",
+      "SourceId": "InternetShop.Presentation",
+      "SourceType": "Discovered",
+      "ContentRoot": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop\\wwwroot\\",
+      "BasePath": "_content/InternetShop.Presentation",
+      "RelativePath": "css/home.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\home.css"
     },
     {
       "Identity": "D:\\savings\\git\\CourseWork\\InternetShop\\InternetShop\\wwwroot\\css\\site.css",
