@@ -20,6 +20,8 @@ namespace InternetShop.Data.Models
         public ICollection<Product> Products { get; set; }
         [NotMapped]
         public List<int> ProductsId { get; set; }
+        [NotMapped]
+        public Dictionary<Product, int> UnitPerProduct { get; set; }
         
     }
 }
