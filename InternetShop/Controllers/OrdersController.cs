@@ -52,29 +52,38 @@ namespace InternetShop.Controllers
         {
             ViewBag.Products = new SelectList(_context.Products, "Id", "Name");
             if (!ModelState.IsValid)
-            {   
-                var product = _context.Products.Find(order.ProductId);
-                if(product == null)
+            {
+                order.Products = new List<Product>();
+                foreach(var prodId in order.ProductsId)
                 {
-                    return RedirectToAction(nameof(NotPlaced));
+                    var product = _context.Products.Find(prodId);
+                    if (product == null)
+                    {
+                        return RedirectToAction(nameof(NotPlaced));
+                    }
+                    order.Products.Add(product);
                 }
-                //order.Product = product;
-                //var priceCalc = order.Product.Price * order.UnitsCount;
-                //order.Price = priceCalc.ToString();
+                var priceCalc = order.Products.Sum(x => x.Price) * order.UnitsCount;
+                order.Price = priceCalc.ToString();
             }
-            //var reductionResult = await _shoppingRepository.ReduceUnitStockAsync(order.Product, order.UnitsCount);
-            //if (!reductionResult)
-            //{
-            //    return RedirectToAction(nameof(NotPlaced));
-            //}
+            var reductionResult = await _shoppingRepository.ReduceUnitStockAsync(order.Products, order.UnitsCount);
+            if (!reductionResult)
+            {
+                return RedirectToAction(nameof(NotPlaced));
+            }
             _context.Add(order);
             await _invoiceFactory.Create(order);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Placed));
         }
 
-        public IActionResult Placed()
+        public IActionResult ShowCompletedOrder()
         {
+            return View();
+        }
+
+        public IActionResult Placed()
+        {   
             return View();
         }
 
