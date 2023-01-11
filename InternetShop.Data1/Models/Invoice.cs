@@ -13,8 +13,9 @@ namespace InternetShop.Data.Models
         public float UnitsCount { get; set; }
         public DateTime OrderDate { get; set; }
         public int CustomerId { get; set; }
-        public int ProductId { get; set; }
-        public string ProductName { get;set; }
+        public List<int> ProductIds { get; set; }
+        public List<string> ProductNames { get;set; }
+        public List<string> UnitsPerProduct { get; set; } 
 
         public Invoice(Order order)
         {
@@ -23,10 +24,14 @@ namespace InternetShop.Data.Models
             LastName = order.LastName;
             Price = order.Price;
             PhoneNumber = order.PhoneNumber;
-            UnitsCount = order.UnitsCount;
-            OrderDate = DateTime.Now;
-            ProductId = order.ProductId;
-            ProductName = order.Product.Name;
+            OrderDate = order.OrderDate;
+            ProductIds = order.ProductsId;
+
+            ProductNames = order.Details
+                .Select(x => x.Product.Name).ToList();
+
+            UnitsPerProduct = order.Details
+                .Select(d => d.Product.Name + ": " + d.Units.ToString()).ToList();
         }
     }
 }

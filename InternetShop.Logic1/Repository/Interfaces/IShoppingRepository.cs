@@ -8,10 +8,9 @@ namespace InternetShop.Logic.Repository.Interfaces
         public Task<Product> Get(int? id);
         public Task Update(Product product);
         public Task Delete(Product product);
-
         public Task<IEnumerable<Product>> GetAll();
         public IEnumerable<Supplier> GetAllSuppliers();
-        public Task<bool> ReduceUnitStockAsync(Product product, double unit);
+        public bool ReduceUnitStockAsync(ICollection<OrderDetail> details);
         public bool Exist(int id);
     }
 }

@@ -13,6 +13,7 @@ namespace InternetShop.Logic.Services
         public async Task Create(Order order)
         {
             using var context = _invoiceRepository;
+
             await context.Create(new Invoice(order));
         }
     }

@@ -1,0 +1,82 @@
+﻿@model InternetShop.Data.Models.Order
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Your complete order</h1>
+
+<h4>Order</h4>
+    <hr />
+    <dl class="row">
+    <dt class="col-sm-2">
+        @Html.DisplayNameFor(model => model.FirstName)
+    </dt>
+    <dd class="col-sm-10">
+        @Html.DisplayFor(model => model.FirstName)
+    </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            Total
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+    </dl>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Product Name
+            </th>
+            <th>
+                Price per unit
+            </th>
+            <th>
+                Units in order
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var detail in Model.Details)
+    {   
+        <tr>
+        <td>
+            @detail.Product.Name
+        </td>
+        <th>
+            @detail.Product.Price
+        </th>
+        <td>
+            @detail.Units
+        </td>
+        </tr>
+    }
+    </tbody>
+    </table>
+<div>
+    <a asp-action="Create"><button class="btn btn-primary">Back to General Info</button></a>
+    <a asp-action="Edit" asp-route-id="@Model.Id"><button class="btn btn-primary">Back to Number of Tea Info</button></a>
+    <a asp-action="Placed" asp-route-id="@Model.Id"><button class="btn btn-primary">Place order</button></a>
+    <a asp-action="NotPlaced" asp-route-id="@Model.Id"><button class="btn btn-primary">Cancel order</button></a>
+</div>
+
+
+<hr />
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    }
