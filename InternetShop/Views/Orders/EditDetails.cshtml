@@ -1,0 +1,28 @@
+﻿@model IList<InternetShop.Data.Models.OrderDetail>
+
+@{
+    ViewData["Title"] = "Edit Details";
+}
+
+<h1>How many products do you want to order?</h1>
+
+<h4>Your Order</h4>
+<h5>Please enter numbers for products. Leave a zero if you do not want it anymore.</h5>
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditDetails">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                @(i + 1)<br>
+                @Model[i].Product.Name<br>
+                @Html.HiddenFor(m => Model[i].ProductId)
+                @Html.TextBoxFor(m => Model[i].Units)<br>
+            }
+            <div class="form-group">
+                <input type="submit" value="Next" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>

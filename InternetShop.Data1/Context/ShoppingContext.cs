@@ -10,18 +10,15 @@ namespace InternetShop.Data.Context
         public DbSet<Order> Orders { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
 
+        public DbSet<OrderDetail> OrderDetails { get; set; }
+
         public ShoppingContext(DbContextOptions<ShoppingContext> options)
             : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Order>()
-            //    .HasOne(order => order.Product)
-            //    .WithMany(product => product.Orders)
-            //    .HasForeignKey(key => key.ProductId);
-
             modelBuilder.Entity<Supplier>()
                 .Property(prop => prop.FirstName)
                 .IsRequired()
@@ -47,8 +44,14 @@ namespace InternetShop.Data.Context
                  .HasForeignKey(product => product.SupplierId);
 
             modelBuilder.Entity<Order>()
-                .HasMany(order => order.Products)
-                .WithMany(product => product.Orders);
+                .HasMany(order => order.Details)
+                .WithOne(detail => detail.Order)
+                .HasForeignKey(detail => detail.OrderId);
+
+            modelBuilder.Entity<Product>()
+                .HasMany(product => product.OrderDetails)
+                .WithOne(detail => detail.Product)
+                .HasForeignKey(detail => detail.ProductId);
 
             Initialize(modelBuilder);
 

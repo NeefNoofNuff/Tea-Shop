@@ -19,9 +19,6 @@ namespace InternetShop.Logic.Validation
                 .MinimumLength(1).NotNull();
             RuleFor(order => order.PhoneNumber)
                 .NotNull();
-            RuleFor(order => order.UnitsCount)
-                .NotNull()
-                .ExclusiveBetween(1, 10);
         }
     }
 }
