@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Neo4j.Driver;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace InternetShop.Data.Models
 {
@@ -15,7 +17,11 @@ namespace InternetShop.Data.Models
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime OrderDate { get; set; }
         public int CustomerId { get; set; }
-        public int ProductId { get; set; } 
-        public Product Product { get; set; }
+        public ICollection<Product> Products { get; set; }
+        [NotMapped]
+        public List<int> ProductsId { get; set; }
+        [NotMapped]
+        public Dictionary<Product, int> UnitPerProduct { get; set; }
+        
     }
 }

@@ -3893,6 +3893,7 @@
           "Microsoft.EntityFrameworkCore": "6.0.12",
           "Microsoft.EntityFrameworkCore.Relational": "6.0.12",
           "Microsoft.EntityFrameworkCore.SqlServer": "6.0.12",
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.11",
           "Neo4j.Driver.Simple": "5.3.0"
         },
         "compile": {
@@ -3907,7 +3908,8 @@
         "framework": ".NETCoreApp,Version=v6.0",
         "dependencies": {
           "FluentValidation": "11.4.0",
-          "InternetShop.Data": "1.0.0"
+          "InternetShop.Data": "1.0.0",
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.11"
         },
         "compile": {
           "bin/placeholder/InternetShop.Logic.dll": {}

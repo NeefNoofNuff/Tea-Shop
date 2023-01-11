@@ -17,10 +17,10 @@ namespace InternetShop.Data.Context
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Order>()
-                .HasOne(order => order.Product)
-                .WithMany(product => product.Orders)
-                .HasForeignKey(key => key.ProductId);
+            //modelBuilder.Entity<Order>()
+            //    .HasOne(order => order.Product)
+            //    .WithMany(product => product.Orders)
+            //    .HasForeignKey(key => key.ProductId);
 
             modelBuilder.Entity<Supplier>()
                 .Property(prop => prop.FirstName)
@@ -45,6 +45,10 @@ namespace InternetShop.Data.Context
                  .HasOne(product => product.Supplier)
                  .WithMany(supplier => supplier.Products)
                  .HasForeignKey(product => product.SupplierId);
+
+            modelBuilder.Entity<Order>()
+                .HasMany(order => order.Products)
+                .WithMany(product => product.Orders);
 
             Initialize(modelBuilder);
 

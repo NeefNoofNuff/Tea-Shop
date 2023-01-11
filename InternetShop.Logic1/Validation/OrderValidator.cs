@@ -22,10 +22,6 @@ namespace InternetShop.Logic.Validation
             RuleFor(order => order.UnitsCount)
                 .NotNull()
                 .ExclusiveBetween(1, 10);
-            RuleFor(order => order.ProductId)
-                .NotNull();
-            RuleFor(order => order.Product)
-                .NotNull();
         }
     }
 }

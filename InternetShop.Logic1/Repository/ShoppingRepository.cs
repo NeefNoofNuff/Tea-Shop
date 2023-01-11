@@ -53,20 +53,28 @@ namespace InternetShop.Logic.Repository
 
         public IEnumerable<Supplier> GetAllSuppliers() => _shoppingContext.Suppliers.ToList();
 
-        public async Task<bool> ReduceUnitStockAsync(Product product, double unit)
+        public async Task<bool> ReduceUnitStockAsync(ICollection<Product> products, double unit)
         {
-            var newStock = product.UnitInStock - unit;
-            if (newStock < 0)
+            var newStock = new Dictionary<Product,double>();
+            foreach (var product in products)
             {
-                return false;
+                var newStockItem = product.UnitInStock - unit;
+                if (newStockItem < 0)
+                {
+                    return false;
+                }
+                else
+                {
+                    newStock.Add(product,newStockItem);
+                }
             }
-            else
+            foreach (var pair in newStock)
             {
-                product.UnitInStock = newStock;
-                _shoppingContext.Update(product);
+                pair.Key.UnitInStock = pair.Value;
+                _shoppingContext.Update(pair.Key);
                 await _shoppingContext.SaveChangesAsync();
-                return true;
             }
+            return true;
         }
 
         public async Task Update(Product product)

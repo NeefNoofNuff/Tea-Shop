@@ -5,6 +5,11 @@ using InternetShop.Data.Context;
 using InternetShop.Data.Models;
 using InternetShop.Logic.Services;
 using InternetShop.Logic.Repository.Interfaces;
+using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+using InternetShop.Logic.Repository;
+using Microsoft.EntityFrameworkCore;
+using AspNetCore;
 
 namespace InternetShop.Controllers
 {
@@ -46,22 +51,27 @@ namespace InternetShop.Controllers
         }
 
         // POST: Orders/Create
-        public async Task<IActionResult> Create(int id, 
-            [Bind("Id,OrderDate,FirstName,LastName,PhoneNumber,ProductId,UnitsCount")] Order order)
+        //Bind("Id,OrderDate,FirstName,LastName,PhoneNumber,ProductId,UnitsCount")
+        public async Task<IActionResult> Create(int id,
+            [FromForm] Order order)
         {
             ViewBag.Products = new SelectList(_context.Products, "Id", "Name");
             if (!ModelState.IsValid)
-            {   
-                var product = _context.Products.Find(order.ProductId);
-                if(product == null)
+            {
+                order.Products = new List<Product>();
+                foreach (var prodId in order.ProductsId)
                 {
-                    return RedirectToAction(nameof(NotPlaced));
+                    var product = _context.Products.Find(prodId);
+                    if (product == null)
+                    {
+                        return RedirectToAction(nameof(NotPlaced));
+                    }
+                    order.Products.Add(product);
                 }
-                order.Product = product;
-                var priceCalc = order.Product.Price * order.UnitsCount;
+                var priceCalc = order.Products.Sum(x => x.Price) * order.UnitsCount;
                 order.Price = priceCalc.ToString();
             }
-            var reductionResult = await _shoppingRepository.ReduceUnitStockAsync(order.Product, order.UnitsCount);
+            var reductionResult = await _shoppingRepository.ReduceUnitStockAsync(order.Products, order.UnitsCount);
             if (!reductionResult)
             {
                 return RedirectToAction(nameof(NotPlaced));
@@ -69,7 +79,53 @@ namespace InternetShop.Controllers
             _context.Add(order);
             await _invoiceFactory.Create(order);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Placed));
+            TempData["order"] = JsonConvert.SerializeObject(order.Id);
+            return RedirectToAction(nameof(ShowCompletedOrder));
+        }
+
+        public async Task<IActionResult> ShowCompletedOrder()
+        {
+            var orderId = JsonConvert.DeserializeObject<int>((string)TempData["order"]);
+            var order = _context.Orders.Include(x => x.Products).Where(order => order.Id == orderId).Single();
+            if (order == null || order.Products == null || !order.Products.Any())
+            {
+                return RedirectToAction(nameof(NotPlaced));
+            }
+
+            return View(order);
+        }
+        [HttpGet("Orders/Edit/{id}")]
+        public IActionResult Edit(int? id)
+        {
+            var order = _context.Orders
+                .Include(x => x.Products)
+                .Where(order => order.Id == id)
+                .Single();
+
+            if (order == null)
+                return RedirectToAction(nameof(NotPlaced));
+            order.UnitPerProduct = new Dictionary<Product, int>();
+            foreach (var product in order.Products)
+            {
+                order.UnitPerProduct.Add(product, 1);
+            }
+            return View(order);
+        }
+        [HttpPost("Orders/Edit/{id}")]
+        public IActionResult Edit(int? id, [FromBody] Order order)
+        {
+            if (order == null || order.Id != id)
+                return RedirectToAction(nameof(NotPlaced));
+
+            var orderInBase = _context.Orders
+                .Include(x => x.Products)
+                .Where(order => order.Id == id)
+                .Single();
+
+            //orderInBase.UnitPerProduct = 
+
+            _context.Orders.Update(order);
+            return RedirectToAction(nameof(ShowCompletedOrder));
         }
 
         public IActionResult Placed()

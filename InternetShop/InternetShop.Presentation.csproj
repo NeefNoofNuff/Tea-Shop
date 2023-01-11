@@ -28,4 +28,8 @@
     <ProjectReference Include="..\InternetShop.Logic1\InternetShop.Logic.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
 </Project>
