@@ -16,7 +16,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternetShop.Logic", "Inter
 		{87756DC6-F22E-4392-9072-0875F83F2AF1} = {87756DC6-F22E-4392-9072-0875F83F2AF1}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternetShop.Testing", "InternetShop.Testing\InternetShop.Testing.csproj", "{7058E30D-01D9-4BDD-B578-9D9933B5FCE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InternetShop.Testing", "InternetShop.Testing\InternetShop.Testing.csproj", "{7058E30D-01D9-4BDD-B578-9D9933B5FCE2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C9397E8D-0365-43F0-A2CB-0E546B41C6C1}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

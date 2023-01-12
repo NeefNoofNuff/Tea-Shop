@@ -4,6 +4,7 @@ using InternetShop.Logic.Repository.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Data.Common;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,8 +22,15 @@ namespace InternetShop.Logic.Repository
 
         public async Task Create(Order order)
         {
-            _context.Add(order);
-            await _context.SaveChangesAsync();
+            try
+            {
+                _context.Add(order);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception)
+            {
+                throw new Exception("Can not create ann order!");
+            }
         }
 
         public async Task Delete(Order order)

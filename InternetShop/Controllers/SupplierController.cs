@@ -1,24 +1,23 @@
 ﻿using InternetShop.Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using InternetShop.Logic.Repository.Interfaces;
+using InternetShop.Logic.Services.Interfaces;
 
 namespace InternetShop.Controllers
 {
     public class SupplierController : Controller
     {   
-        private readonly ISupplierRepository _supplierRepository;
-        //SupplierAccess
-        
-        public SupplierController(ISupplierRepository supplierRepository)
+        private readonly ISupplierService _supplierService;
+        public SupplierController(ISupplierService supplierService)
         {
-            _supplierRepository = supplierRepository;
+            _supplierService = supplierService;
         }
+
         [Authorize(Policy = "SupplierAccess")]
         // GET: SupplierController
         public async Task<IActionResult> Index()
         {
-            return View(await _supplierRepository.GetAll());
+            return View(await _supplierService.GetAll());
         }
         [Authorize(Policy = "SupplierAccess")]
         // GET: SupplierController/Details/5
@@ -27,7 +26,7 @@ namespace InternetShop.Controllers
             if (id == null)
                 return NotFound();
             var supplier =
-                await _supplierRepository.Get(id);
+                await _supplierService.Get(id);
 
             if(supplier == null)
             {
@@ -55,7 +54,7 @@ namespace InternetShop.Controllers
             }
             try
             {
-                await _supplierRepository.Create(supplier);
+                await _supplierService.Create(supplier);
                 return RedirectToAction(nameof(Index));
             }
             catch (Exception)
@@ -71,7 +70,7 @@ namespace InternetShop.Controllers
             if (id == null)
                 return NotFound();
             var supp =
-                await _supplierRepository.Get(id);
+                await _supplierService.Get(id);
             return View(supp);
         }
 
@@ -88,7 +87,7 @@ namespace InternetShop.Controllers
             }
             try
             {
-                await _supplierRepository.Update(supplier);
+                await _supplierService.Update(supplier);
                 return RedirectToAction(nameof(Index));
             }
             catch
@@ -105,13 +104,7 @@ namespace InternetShop.Controllers
             {
                 return NotFound();
             }
-
-            var supp = await _supplierRepository.Get(id);
-            if (supp == null)
-            {
-                return NotFound();
-            }
-            await _supplierRepository.Delete(supp);
+            await _supplierService.Delete(id);
             return RedirectToAction(nameof(Index));
         }
 
@@ -127,7 +120,7 @@ namespace InternetShop.Controllers
             }
             try
             {
-                await _supplierRepository.Delete(supplier);
+                await _supplierService.Delete(id);
                 return RedirectToAction(nameof(Index));
             }
             catch

@@ -15,44 +15,112 @@ namespace InternetShop.Logic.Repository
 
         public async Task Create(Supplier supplier)
         {
-            _shoppingContext.Suppliers.Add(supplier);
-            await _shoppingContext.SaveChangesAsync();
+            try
+            {
+                _shoppingContext.Suppliers.Add(supplier);
+                await _shoppingContext.SaveChangesAsync();
+            }
+            catch (ArgumentNullException)
+            {
+                throw;
+            }
+            catch (DbUpdateException)
+            {
+                throw;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
         }
 
         public async Task Delete(Supplier supplier)
         {
-            var productsWithSupplier = _shoppingContext.Products
-                .Where(product => product.SupplierId == supplier.Id)
-                .ToList();
-
-            foreach (var product in productsWithSupplier)
+            try
             {
-                _shoppingContext.Products.Remove(product);
+                var productsWithSupplier = _shoppingContext.Products
+                    .Where(product => product.SupplierId == supplier.Id)
+                    .ToList();
+                foreach (var product in productsWithSupplier)
+                {
+                    _shoppingContext.Products.Remove(product);
+                }
+
+                _shoppingContext.Suppliers.Remove(supplier);
+                await _shoppingContext.SaveChangesAsync();
+            }
+            catch (ArgumentNullException)
+            {
+                throw;
+            }
+            catch (DbUpdateException)
+            {
+                throw;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
             }
 
-            _shoppingContext.Suppliers.Remove(supplier);
-            await _shoppingContext.SaveChangesAsync();
         }
 
         public async Task<Supplier> Get(int? id)
         {
-            var supplier = await _shoppingContext.Suppliers.FirstOrDefaultAsync(supp => supp.Id == id);
-            if (supplier == null)
+            try
             {
-                throw new NullReferenceException("ID in supplier is null");
+                var supplier = await _shoppingContext.Suppliers.FirstOrDefaultAsync(supp => supp.Id == id);
+                if (supplier == null)
+                {
+                    throw new NullReferenceException("ID in supplier is null");
+                }
+                return supplier;
             }
-            return supplier;
+            catch(OperationCanceledException)
+            {
+                throw;
+            }
+            catch (NullReferenceException)
+            {
+                throw;
+            }
+            catch (ArgumentNullException)
+            {
+                throw;
+            }
         }
 
         public async Task<IEnumerable<Supplier>> GetAll()
         {
-            return await _shoppingContext.Suppliers.ToListAsync();
+            try
+            {
+                return await _shoppingContext.Suppliers.ToListAsync();
+            }
+            catch (ArgumentNullException)
+            {
+                throw;
+            }
+            catch(OperationCanceledException)
+            {
+                throw;
+            }
+
         }
 
         public async Task Update(Supplier supplier)
         {
-            _shoppingContext.Update(supplier);
-            await _shoppingContext.SaveChangesAsync();
+            try
+            {
+                _shoppingContext.Update(supplier);
+                await _shoppingContext.SaveChangesAsync();
+            }
+            catch (ArgumentNullException)
+            {
+                throw;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
         }
     }
 }

@@ -1,31 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using InternetShop.Data.Context;
 using InternetShop.Data.Models;
-using InternetShop.Logic.Services;
-using InternetShop.Logic.Repository.Interfaces;
-using Newtonsoft.Json;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Versioning;
-using InternetShop.Logic.Repository;
+using InternetShop.Logic.Services.Interfaces;
 
 namespace InternetShop.Controllers
 {
     [Authorize]
     public class OrdersController : Controller
     {
-        private readonly IShoppingRepository _shoppingRepository;
-        private readonly IOrderRepository _orderRepository;
-        private readonly InvoiceFactory _invoiceFactory;
+        private readonly IProductService _productService;
+        private readonly IOrderService _orderService;
 
         public OrdersController
-            (IShoppingRepository shoppingRepository, IOrderRepository orderRepository,
-            InvoiceFactory invoiceFactory)
+            (IOrderService orderService, IProductService productService)
         {
-            _shoppingRepository = shoppingRepository;
-            _invoiceFactory = invoiceFactory;
-            _orderRepository = orderRepository;
+            _orderService = orderService;
+            _productService = productService;
         }
 
         public IActionResult Index()
@@ -36,9 +27,16 @@ namespace InternetShop.Controllers
         [HttpGet("Orders/Create")]
         public async Task<IActionResult> Create()
         {
-            ViewBag.Products = new SelectList
-                (await _shoppingRepository.GetAll(), "Id", "Name");
-            return View();
+            try
+            {
+                ViewBag.Products = new SelectList
+                (await _productService.GetAll(), "Id", "Name");
+                return View();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
 
         [HttpPost]
@@ -46,56 +44,17 @@ namespace InternetShop.Controllers
             [FromForm] Order order)
         {
             ViewBag.Products = new SelectList
-                (await _shoppingRepository.GetAll(), "Id", "Name");
-            if (!ModelState.IsValid)
-            {
-                order.Details = new List<OrderDetail>(order.ProductsId.Count);
-                order.Price = "0";
-                order.OrderDate = DateTime.Now;
-            }
+                (await _productService.GetAll(), "Id", "Name");
 
-            await _orderRepository.Create(order);
-
-            var orderToPass = await _orderRepository.Get(order.FirstName, order.LastName, order.PhoneNumber);
-
-            if(orderToPass == null)
-            {
-                return RedirectToAction(nameof(NotPlaced));
-            }
-
-            foreach (var prodId in order.ProductsId)
-            {
-                var product = await _shoppingRepository.Get(prodId);
-                if (product == null)
-                {
-                    return RedirectToAction(nameof(NotPlaced));
-                }
-                orderToPass.Details.Add(new OrderDetail(order, order.Id, product, prodId, 0));
-            }
-
-            foreach (var detail in orderToPass.Details)
-            {
-                detail.OrderId = order.Id;
-                detail.Order = order;
-            }
-
-            order = orderToPass;
-            await _orderRepository.Update(order);
+            await _orderService.CreateDefaultOrder(order);
+           
             return RedirectToAction("Edit", new {id = order.Id});
         }
 
         [HttpGet("Orders/Edit/{id}")]
         public async Task<IActionResult> EditDetails(int? id)
         {
-            var order = await _orderRepository.Get(id);
-
-            if (order == null 
-                || order.Details == null 
-                || !order.Details.Any())
-            {
-                return RedirectToAction(nameof(NotPlaced));
-            }
-
+            var order = await _orderService.Get(id);
             return View(order.Details);
         }
 
@@ -106,57 +65,52 @@ namespace InternetShop.Controllers
             if (id == null || details == null)
                 return RedirectToAction(nameof(NotPlaced));
 
-            var order = await _orderRepository.Get(id);
-            order.Details = details;
-
-            foreach (var detail in order.Details)
+            try
             {
-                var product = await _shoppingRepository.Get(detail.ProductId);
-                if (product == null)
-                    return RedirectToAction(nameof(NotPlaced));
-                detail.Product = product;
+                var orderId = await _orderService.UpdateDetails(id, details);
+                if(orderId == null)
+                {
+                    throw new NullReferenceException("Order was not updated!");
+                }
+                return RedirectToAction("Show", new { id = orderId });
             }
-
-            order.Price = order.Details
-                .Select(x => x.Product.Price * x.Units)
-                .Sum()
-                .ToString();
-
-            if (_shoppingRepository.ReduceUnitStockAsync(order.Details))
+            catch (Exception)
             {
-                await _orderRepository.Update(order);
+                return NotFound();
             }
-
-            return RedirectToAction("Show", new { id = order.Id });
-
         }
         [HttpGet("Orders/Show/{id}")]
         public async Task<IActionResult> Show(int? id)
         {
-            var order = await _orderRepository.Get(id);
-            if (order == null || order.Details == null)
+            try
+            {
+                var order = await _orderService.Get(id);
+                return View(order);
+            }
+            catch (Exception)
+            {
                 return NotFound();
-            return View(order);
+            }
         }
         [HttpGet("Orders/Placed/{id}")]
         public async Task<IActionResult> Placed(int? id)
         {
-            var order = await _orderRepository.Get(id);
-            if (order == null || order.Details == null)
+            try
+            {
+                await _orderService.CreateInvoice(id);
+                return View();
+            }
+            catch (Exception)
+            {
                 return NotFound();
-            order.Confirmed = true;
-            await _orderRepository.Update(order);
-            await _invoiceFactory.Create(order);
-            return View();
+            }
+
         }
 
         [HttpGet("Orders/NotPlaced/{id}")]
         public async Task<IActionResult> NotPlaced(int? id)
         {
-            var order = await _orderRepository.Get(id);
-            if (order == null || order.Details == null)
-                return NotFound();
-            await _orderRepository.Delete(order);
+            await _orderService.Delete(id);
             return View();
         }
     }

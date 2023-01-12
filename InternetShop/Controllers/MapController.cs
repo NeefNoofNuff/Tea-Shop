@@ -2,21 +2,30 @@
 using InternetShop.Data.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using InternetShop.Logic.Services.Interfaces;
 
 namespace InternetShop.Controllers
 {
     public class MapController : Controller
     {
-        private readonly MapContext _context;
+        private readonly IMapService _mapService;
 
-        public MapController(MapContext context)
+        public MapController(IMapService mapService)
         {
-            _context = context;
+            _mapService = mapService;
         }
 
         public IActionResult Index()
         {
-            return View(_context.GetAll().ToList().OrderBy(x => x.Id));
+            try
+            {
+                return View(_mapService.GetAll());
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+            
         }
 
         public IActionResult Create()
@@ -24,65 +33,85 @@ namespace InternetShop.Controllers
             return View();
         }
 
-
         [HttpPost]
         [Authorize(Policy = "WriteAccess")]
         [ValidateAntiForgeryToken]
         public IActionResult Create([Bind("Id,Address,Hours")] Shop? shop)
         {
-            if (ModelState.IsValid)
+            try
             {
-                if (shop == null) return View("Index");
-                _context.Add(shop);
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    if (shop == null) return View("Index");
+                    _mapService.Create(shop);
+                    return RedirectToAction(nameof(Index));
+                }
+                return View(shop);
             }
-            return View(shop);
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
-
-        //[Authorize(Policy = "ProductsBaseAccess")]
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        [Authorize(Policy = "WriteAccess")]
         public IActionResult Edit(int? id)
         {
-            if (id == null) return NotFound();
+            try
+            {
+                if (id == null) return NotFound();
 
-            var shop = _context.Find(id);
+                var shop = _mapService.Get(id);
 
-            return shop == null ? NotFound() : View(shop);
+                return shop == null ? NotFound() : View(shop);
+            }
+            catch (Exception)
+            {
+                return NotFound();  
+            }
         }
-
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        [Authorize(Policy = "WriteAccess")]
         [HttpPost]
-        //[Authorize(Policy = "ProductsBaseAccess")]
         [ValidateAntiForgeryToken]
         public IActionResult Edit([Bind("Id,Address,Hours")] Shop shop)
         {
             if (ModelState.IsValid)
             {
-                _context.Update(shop);
+                _mapService.Update(shop);
                 return RedirectToAction(nameof(Index));
             }
             return View(shop);
         }
-
-        //[Authorize(Policy = "ProductsBaseAccess")]
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        [Authorize(Policy = "WriteAccess")]
         public IActionResult Delete(int? id)
         {
-            if (id == null) return NotFound();
+            try
+            {
+                if (id == null) return NotFound();
 
-            var product = _context.Find(id);
+                var product = _mapService.Get(id);
 
-            return product == null ? NotFound() : View(product);
+                return product == null ? NotFound() : View(product);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
-
-        //[Authorize(Policy = "ProductsBaseAccess")]
-        // [Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        [Authorize(Policy = "WriteAccess")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public IActionResult DeleteConfirmed(int? id)
         {
-            _context.Remove(id);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                _mapService.Delete(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+
         }
     }
 }
