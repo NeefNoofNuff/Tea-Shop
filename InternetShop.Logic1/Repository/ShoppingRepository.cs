@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace InternetShop.Logic.Repository
 {
     public class ShoppingRepository : IShoppingRepository
-    {   
+    {
         private readonly ShoppingContext _shoppingContext;
 
         public ShoppingRepository(ShoppingContext shoppingContext)
@@ -15,15 +15,38 @@ namespace InternetShop.Logic.Repository
         }
 
         public async Task Create(Product product)
-        {   
-            _shoppingContext.Products.Add(product);
-            await _shoppingContext.SaveChangesAsync();
+        {
+            try
+            {
+                _shoppingContext.Products.Add(product);
+                await _shoppingContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
         }
 
         public async Task Delete(Product product)
         {
-            _shoppingContext.Remove(product);
-            await _shoppingContext.SaveChangesAsync();
+            try
+            {
+                _shoppingContext.Remove(product);
+                await _shoppingContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw;
+            }
+            catch(OperationCanceledException) 
+            {
+                throw;
+            }
+
         }
 
         public bool Exist(int id)
@@ -39,23 +62,37 @@ namespace InternetShop.Logic.Repository
             return true;
         }
 
-        public Task<Product> Get(int? id)
-        {   
-            var product = _shoppingContext.Products.FirstOrDefault(prod => prod.Id == id);
-            if(product == null)
+        public async Task<Product> Get(int? id)
+        {
+            try
             {
-                throw new NullReferenceException("Product not found!");
+                var product = await _shoppingContext.Products
+                .Include(x => x.Supplier)
+                .FirstOrDefaultAsync(prod => prod.Id == id);
+                if (product == null)
+                    throw new NullReferenceException("Product not found!");
+                return product;
             }
-            return Task.FromResult(product);
+            catch (NullReferenceException)
+            {
+                throw;
+            }
+            catch (ArgumentNullException)
+            {
+                throw;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
         }
 
-        public async Task<IEnumerable<Product>> GetAll() => await _shoppingContext.Products.ToListAsync();
-
+        public async Task<IEnumerable<Product>> GetAll() => await _shoppingContext.Products.Include(x => x.Supplier).ToListAsync();
         public IEnumerable<Supplier> GetAllSuppliers() => _shoppingContext.Suppliers.ToList();
 
         public bool ReduceUnitStockAsync(ICollection<OrderDetail> details)
         {
-            if(details == null 
+            if (details == null
                 || !details.Select(x => x.Product).Any()
                 || details.Where(x => x.Product == null).Any()
                 || details.Where(x => x.Product.UnitInStock - x.Units < 0).Any())
@@ -72,8 +109,19 @@ namespace InternetShop.Logic.Repository
 
         public async Task Update(Product product)
         {
-            _shoppingContext.Update(product);
-            await _shoppingContext.SaveChangesAsync();
+            try
+            {
+                _shoppingContext.Update(product);
+                await _shoppingContext.SaveChangesAsync();
+            }
+            catch (DbUpdateException)
+            {
+                throw;
+            }
+            catch (OperationCanceledException)
+            {
+                throw;
+            }
         }
     }
 }

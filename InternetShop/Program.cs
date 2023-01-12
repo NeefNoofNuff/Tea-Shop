@@ -2,10 +2,11 @@ using InternetShop.Data.Context;
 using InternetShop.Logic.Repository;
 using InternetShop.Logic.Repository.Interfaces;
 using InternetShop.Logic.Services;
+using InternetShop.Logic.Services.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Neo4j.Driver;
-
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,9 +19,20 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddDbContext<ShoppingContext>(option => 
     option.UseSqlServer(shopContextConnectionString, b => b.MigrationsAssembly("InternetShop.Presentation")));
 
+System.Globalization.CultureInfo customCulture = new System.Globalization.CultureInfo("en-US");
+customCulture.NumberFormat.NumberDecimalSeparator = ".";
+
+CultureInfo.DefaultThreadCurrentCulture = customCulture;
+CultureInfo.DefaultThreadCurrentUICulture = customCulture;
+
 builder.Services.AddScoped<IShoppingRepository, ShoppingRepository>();
 builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderService, OrderService>();
+builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<IMapRepository, MapRepository>();
+builder.Services.AddScoped<IMapService, MapService>();
 
 builder.Services.AddControllers();
 

@@ -16,7 +16,7 @@ namespace InternetShop.Logic.Validation
                 .MinimumLength(1)
                 .NotNull();
             RuleFor(order => order.Price)
-                .MinimumLength(1).NotNull();
+                .NotNull();
             RuleFor(order => order.PhoneNumber)
                 .NotNull();
         }

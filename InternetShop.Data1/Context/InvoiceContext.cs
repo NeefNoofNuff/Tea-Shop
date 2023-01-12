@@ -9,10 +9,17 @@ namespace InternetShop.Data.Context
         public CouchDatabase<Invoice> Invoices { get; set; }
         protected override void OnConfiguring(CouchOptionsBuilder optionsBuilder)
         {
-            optionsBuilder
+            try
+            {
+                optionsBuilder
                 .UseEndpoint("http://localhost:5984/")
                 .EnsureDatabaseExists()
                 .UseBasicAuthentication("couchdb", "couchdb");
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
     }
       

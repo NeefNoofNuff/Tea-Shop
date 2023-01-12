@@ -4,27 +4,29 @@ using Microsoft.EntityFrameworkCore;
 using InternetShop.Data.Models;
 using InternetShop.Logic.Repository.Interfaces;
 using X.PagedList;
+using InternetShop.Logic.Services;
+using InternetShop.Logic.Services.Interfaces;
 
 namespace InternetShop.Controllers
 {
     public class ProductsController : Controller
     {
-        private readonly IShoppingRepository _productsRepository;
-        private readonly ISupplierRepository _supplierRepository;
+        private readonly IProductService _productService;
+        private readonly ISupplierService _supplierService;
 
-        public ProductsController
-            (IShoppingRepository productsRepository, ISupplierRepository supplierRepository)
+        public ProductsController(IProductService productService, ISupplierService supplierService)
         {
-            _productsRepository = productsRepository;
-            _supplierRepository = supplierRepository;
+            _productService = productService;
+            _supplierService = supplierService;
         }
+
         public async Task<IActionResult> Index
             (string sortOrder, string currentFilter, string searchString, int? page)
         {
             ViewBag.CurrentSort = sortOrder;
-            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.PriceSortParm = sortOrder == "Price" ? "price_desc" : "Date";
-            var products = await _productsRepository.GetAll();
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? PagingTools.SortingByNameDesc : "";
+            ViewBag.PriceSortParm = sortOrder == PagingTools.SortingByPrice ? PagingTools.SortingByPriceDesc : PagingTools.SortingByPrice;
+            var products = await _productService.GetAll();
             if(searchString != null)
             {
                 page = 1;
@@ -42,76 +44,89 @@ namespace InternetShop.Controllers
             }
             switch (sortOrder)
             {
-                case "name_desc":
+                case PagingTools.SortingByNameDesc:
                     products = products.OrderByDescending(s => s.Name);
                     break;
-                case "Price":
+                case PagingTools.SortingByPrice:
                     products = products.OrderBy(s => s.Price);
                     break;
-                case "price_desc":
+                case PagingTools.SortingByPriceDesc:
                     products = products.OrderByDescending(s => s.Price);
                     break;
                 default:
                     products = products.OrderBy(s => s.Name);
                     break;
             }
-            int pageSize = 5;
             int pageNumber = (page ?? 1);
-            return View(products.ToPagedList(pageNumber, pageSize));
+            return View(products.ToPagedList(pageNumber, PagingTools.ElementsPerPage));
         }
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
-
-            var product = await _productsRepository.Get(id);
-            if (product == null)
+            try
             {
-                return NotFound();
+                var product = await _productService.Get(id);
+                return View(product);
             }
+            catch (Exception)
+            {
 
-            return View(product);
+                return View("Error");
+            }
         }
         [Authorize(Policy = "WriteAccess")]
         // GET: Products/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Suppliers = _productsRepository.GetAllSuppliers();
+            ViewBag.Suppliers = await _supplierService.GetAll();
             return View();
         }
         // POST: Products/Create
         [HttpPost]
         [Authorize(Policy = "WriteAccess")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Price,UnitInStock,SupplierId")] Product product)
+        public async Task<IActionResult> Create([FromForm] Product product)
         {
-            if (!ModelState.IsValid)
+            try
             {
-                product.Supplier = await _supplierRepository.Get(product.SupplierId);               
+                if (!ModelState.IsValid)
+                {
+                    product.Supplier = await _supplierService.Get(product.SupplierId);
+                }
+                await _productService.Create(product);
+                return RedirectToAction(nameof(Index));
             }
-            await _productsRepository.Create(product);
-            return RedirectToAction(nameof(Index));
+            catch (Exception)
+            {
+                return View("Error");
+            }
+
         }
         [Authorize(Policy = "WriteAccess")]
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.Suppliers = _productsRepository.GetAllSuppliers();
+            ViewBag.Suppliers = _supplierService.GetAll();
 
             if (id == null)
             {
-                return NotFound();
+                throw new NullReferenceException("Id for product in edit is null!");
+            }
+            try
+            {
+                var product = await _productService.Get(id);
+                return View(product);
+            }
+            catch (Exception)
+            {
+                return View("Error");
             }
 
-            var product = await _productsRepository.Get(id);
-            if (product == null)
-            {
-                return NotFound();
-            }
-            return View(product);
+
         }
 
         // POST: Products/Edit/5
@@ -122,33 +137,33 @@ namespace InternetShop.Controllers
         {
             if (id != product.Id)
             {
-                return NotFound();
+                return View("Error");
             }
-            if(!ModelState.IsValid)
-            {
-                var supplier =
-                    await _supplierRepository.Get(product.SupplierId);
-                if(supplier == null)
-                {
-                    return NotFound();
-                }
-                product.Supplier = supplier;
-            }
-
             try
             {
-                await _productsRepository.Update(product);
+                if (!ModelState.IsValid)
+                {
+                    var supplier =
+                        await _supplierService.Get(product.SupplierId);
+                    product.Supplier = supplier;
+                }
+
+                await _productService.Update(product);
             }
             catch (DbUpdateConcurrencyException)
             {
                 if (!ProductExists(product.Id))
                 {
-                    return NotFound();
+                    return View("Error");
                 }
                 else
                 {
                     throw;
                 }
+            }
+            catch (Exception)
+            {
+                return View("Error");
             }
             return RedirectToAction(nameof(Index));
 
@@ -159,16 +174,18 @@ namespace InternetShop.Controllers
         {
             if (id == null)
             {
-                return NotFound();
+                return View("Error");
             }
 
-            var product = await _productsRepository.Get(id);
-            if (product == null)
+            try
             {
-                return NotFound();
+                var product = await _productService.Get(id);
+                return View(product);
             }
-
-            return View(product);
+            catch (Exception)
+            {
+                return View("Error");
+            }
         }
         // POST: Products/Delete/5
         [Authorize(Policy = "WriteAccess")]
@@ -176,14 +193,29 @@ namespace InternetShop.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var product = await _productsRepository.Get(id);
-            await _productsRepository.Delete(product);
-            return RedirectToAction(nameof(Index));
+            try
+            {
+                var product = await _productService.Get(id);
+                await _productService.Delete(id);
+                return RedirectToAction(nameof(Index));
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
 
         public bool ProductExists(int id)
         {
-            return _productsRepository.Exist(id);
+            try
+            {
+                var result = _productService.Get(id);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
     }
 }
