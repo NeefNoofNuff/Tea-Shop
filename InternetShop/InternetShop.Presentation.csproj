@@ -29,6 +29,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Filters\Exceptions\" />
+    <Folder Include="Filters\Actions\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>
 

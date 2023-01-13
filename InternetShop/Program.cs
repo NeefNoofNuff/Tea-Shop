@@ -3,10 +3,13 @@ using InternetShop.Logic.Repository;
 using InternetShop.Logic.Repository.Interfaces;
 using InternetShop.Logic.Services;
 using InternetShop.Logic.Services.Interfaces;
+using InternetShop.Logic.Filtering;
+using InternetShop.Logic.Filtering.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Neo4j.Driver;
 using System.Globalization;
+using InternetShop.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,12 +30,20 @@ CultureInfo.DefaultThreadCurrentUICulture = customCulture;
 
 builder.Services.AddScoped<IShoppingRepository, ShoppingRepository>();
 builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
+
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
+
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
+
 builder.Services.AddScoped<IMapRepository, MapRepository>();
 builder.Services.AddScoped<IMapService, MapService>();
+
+builder.Services.AddScoped<IEnumerableFilter<Product>, ProductCollectionFilter>();
+builder.Services.AddScoped<IEnumerableFilter<Supplier>, SupplierCollectionFilter>();
+builder.Services.AddScoped<IEnumerableOrdering<Product>, ProductCollectionOrdering>();
+builder.Services.AddScoped<IEnumerableOrdering<Supplier>, SupplierCollectionOrdering>();
 
 builder.Services.AddControllers();
 
@@ -45,6 +56,7 @@ builder.Services.AddSingleton
 
 builder.Services.AddScoped<MapContext>();
 builder.Services.AddScoped<InvoiceContext>();
+builder.Services.AddScoped<PagingTools>();
 
 builder.Services.AddScoped<IInvoiceRepository, InvoiceRepository>();
 

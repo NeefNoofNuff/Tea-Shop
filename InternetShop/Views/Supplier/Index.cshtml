@@ -1,5 +1,5 @@
-﻿@model IEnumerable<InternetShop.Data.Models.Supplier>
-
+﻿@model X.PagedList.IPagedList<InternetShop.Data.Models.Supplier>
+@using X.PagedList.Mvc.Core
 @{
     ViewData["Title"] = "Index";
 }
@@ -9,20 +9,33 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<p>
+    Sort By:
+    @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })
+</p>
+@using (Html.BeginForm("Index", "Supplier", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as String)
+        <input type="submit" value="Search" />
+    </p>
+}
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                First name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                Last name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
+                Company name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.PhoneNumber)
+                Phone number
             </th>
         </tr>
     </thead>
@@ -50,3 +63,8 @@
 }
     </tbody>
 </table>
+
+Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+@Html.PagedListPager(Model, page => Url.Action("Index",
+new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))

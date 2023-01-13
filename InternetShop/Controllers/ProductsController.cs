@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using InternetShop.Data.Models;
-using InternetShop.Logic.Repository.Interfaces;
-using X.PagedList;
 using InternetShop.Logic.Services;
 using InternetShop.Logic.Services.Interfaces;
 
@@ -13,11 +11,13 @@ namespace InternetShop.Controllers
     {
         private readonly IProductService _productService;
         private readonly ISupplierService _supplierService;
+        private readonly PagingTools _pagingTools;
 
-        public ProductsController(IProductService productService, ISupplierService supplierService)
+        public ProductsController(IProductService productService, ISupplierService supplierService, PagingTools pagingTools)
         {
             _productService = productService;
             _supplierService = supplierService;
+            _pagingTools = pagingTools;
         }
 
         public async Task<IActionResult> Index
@@ -26,7 +26,6 @@ namespace InternetShop.Controllers
             ViewBag.CurrentSort = sortOrder;
             ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? PagingTools.SortingByNameDesc : "";
             ViewBag.PriceSortParm = sortOrder == PagingTools.SortingByPrice ? PagingTools.SortingByPriceDesc : PagingTools.SortingByPrice;
-            var products = await _productService.GetAll();
             if(searchString != null)
             {
                 page = 1;
@@ -37,28 +36,13 @@ namespace InternetShop.Controllers
             }
             ViewBag.CurrentFilter = searchString;
 
-            if (!String.IsNullOrEmpty(searchString))
+            var pagedCollection = await _pagingTools.PageViewProductAsync(sortOrder, searchString, page);
+
+            if(pagedCollection == null || pagedCollection.Count == 0)
             {
-                products = products
-                    .Where(product => product.Name.Contains(searchString));
+                return NoContent();
             }
-            switch (sortOrder)
-            {
-                case PagingTools.SortingByNameDesc:
-                    products = products.OrderByDescending(s => s.Name);
-                    break;
-                case PagingTools.SortingByPrice:
-                    products = products.OrderBy(s => s.Price);
-                    break;
-                case PagingTools.SortingByPriceDesc:
-                    products = products.OrderByDescending(s => s.Price);
-                    break;
-                default:
-                    products = products.OrderBy(s => s.Name);
-                    break;
-            }
-            int pageNumber = (page ?? 1);
-            return View(products.ToPagedList(pageNumber, PagingTools.ElementsPerPage));
+            return View(pagedCollection);
         }
         // GET: Products/Details/5
         public async Task<IActionResult> Details(int? id)

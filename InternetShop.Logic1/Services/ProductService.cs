@@ -1,5 +1,5 @@
 ﻿using InternetShop.Data.Models;
-using InternetShop.Logic.Repository;
+using InternetShop.Logic.Filtering.Interfaces;
 using InternetShop.Logic.Repository.Interfaces;
 using InternetShop.Logic.Services.Interfaces;
 
@@ -8,10 +8,16 @@ namespace InternetShop.Logic.Services
     public class ProductService : IProductService
     {
         private readonly IShoppingRepository _productRepository;
+        private readonly IEnumerableOrdering<Product> _sorting;
+        private readonly IEnumerableFilter<Product> _filtering;
 
-        public ProductService(IShoppingRepository productRepository)
+        public ProductService(IShoppingRepository productRepository, 
+            IEnumerableOrdering<Product> sorting,
+            IEnumerableFilter<Product> filtering)
         {
             _productRepository = productRepository;
+            _sorting = sorting;
+            _filtering = filtering;
         }
 
         public async Task Create(Product product)
@@ -77,6 +83,20 @@ namespace InternetShop.Logic.Services
             {
                 throw;
             }
+        }
+
+        public async Task<IEnumerable<Product>> Sort(string sortOrder, string searchString)
+        {
+            var products = await GetAll();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                products = _filtering.Filtering(products, product => product.Name.Contains(searchString));
+            }
+
+            products = _sorting.Sort(products, sortOrder);
+
+            return products;
         }
 
     }

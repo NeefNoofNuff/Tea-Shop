@@ -9,5 +9,6 @@ namespace InternetShop.Logic.Services.Interfaces
         public Task<Supplier> Get(int? id);
         public Task<IEnumerable<Supplier>> GetAll();
         public Task Delete(int? id);
+        public Task<IEnumerable<Supplier>> Sort(string sortOrder, string searchString);
     }
 }

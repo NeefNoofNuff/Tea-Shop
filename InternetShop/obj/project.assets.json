@@ -3909,7 +3909,9 @@
         "dependencies": {
           "FluentValidation": "11.4.0",
           "InternetShop.Data": "1.0.0",
-          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.11"
+          "Microsoft.VisualStudio.Web.CodeGeneration.Design": "6.0.11",
+          "X.PagedList": "8.4.3",
+          "X.PagedList.Mvc.Core": "8.4.3"
         },
         "compile": {
           "bin/placeholder/InternetShop.Logic.dll": {}
