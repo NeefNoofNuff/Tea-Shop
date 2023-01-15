@@ -2,9 +2,12 @@
 using Microsoft.EntityFrameworkCore;
 using InternetShop.Data.Models;
 using InternetShop.Data.Context;
+using Microsoft.AspNetCore.Authorization;
+using InternetShop.Presentation.Filters.Exceptions;
 
 namespace InternetShop.Controllers
 {
+    [TypeFilter(typeof(ExceptionFilterAttribute))]
     public class SuperMarketsController : Controller
     {
         private readonly ShoppingContext _context;
@@ -14,13 +17,11 @@ namespace InternetShop.Controllers
             _context = context;
         }
 
-        // GET: SuperMarkets
         public async Task<IActionResult> Index()
         {
             return View(await _context.SuperMarkets.ToListAsync());
         }
 
-        // GET: SuperMarkets/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -37,20 +38,15 @@ namespace InternetShop.Controllers
 
             return View(superMarket);
         }
-
-        // GET: SuperMarkets/Create
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        [Authorize(Policy = "WriteAccess")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: SuperMarkets/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "WriteAccess")]
         public async Task<IActionResult> Create([Bind("Id,Name,Address")] SuperMarket superMarket)
         {
             if (ModelState.IsValid)
@@ -62,8 +58,7 @@ namespace InternetShop.Controllers
             return View(superMarket);
         }
 
-        // GET: SuperMarkets/Edit/5
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        [Authorize(Policy = "WriteAccess")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -79,12 +74,9 @@ namespace InternetShop.Controllers
             return View(superMarket);
         }
 
-        // POST: SuperMarkets/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Policy = "WriteAccess")]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Address")] SuperMarket superMarket)
         {
             if (id != superMarket.Id)
@@ -115,8 +107,7 @@ namespace InternetShop.Controllers
             return View(superMarket);
         }
 
-        // GET: SuperMarkets/Delete/5
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        [Authorize(Policy = "WriteAccess")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -134,8 +125,7 @@ namespace InternetShop.Controllers
             return View(superMarket);
         }
 
-        // POST: SuperMarkets/Delete/5
-        //[Authorize(Roles = ShoppingContext.ADMIN_ROLE_NAME)]
+        [Authorize(Policy = "WriteAccess")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)

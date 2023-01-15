@@ -18,7 +18,6 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.11" />
     <PackageReference Include="Neo4j.Driver.Simple" Version="5.3.0" />
     <PackageReference Include="Newtonsoft.Json.Bson" Version="1.0.2" />
-    <PackageReference Include="PagedList.Core" Version="1.17.4" />
     <PackageReference Include="X.PagedList" Version="8.4.3" />
     <PackageReference Include="X.PagedList.Mvc.Core" Version="8.4.3" />
   </ItemGroup>
@@ -29,7 +28,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Filters\Exceptions\" />
     <Folder Include="Filters\Actions\" />
     <Folder Include="wwwroot\img\" />
   </ItemGroup>

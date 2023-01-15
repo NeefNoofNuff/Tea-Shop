@@ -9,6 +9,8 @@ namespace InternetShop.Logic.Filtering
             IEnumerableFilter<Product>.FilterDelegate filter)
         {
             var collection = new List<Product>();
+            if (products == null)
+                return collection;
             foreach (var product in products)
             {
                 if (filter(product))

@@ -4,9 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using InternetShop.Data.Models;
 using InternetShop.Logic.Services;
 using InternetShop.Logic.Services.Interfaces;
+using InternetShop.Presentation.Filters.Exceptions;
 
 namespace InternetShop.Controllers
 {
+    [TypeFilter(typeof(ExceptionFilterAttribute))]
     public class ProductsController : Controller
     {
         private readonly IProductService _productService;

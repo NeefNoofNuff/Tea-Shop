@@ -58,16 +58,15 @@ namespace InternetShop.Logic.Filtering
         {
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
-            IEnumerable<Product> result;
             if (order == "descending")
             {
-                result = collection.OrderByDescending(x => x.Name).ToList();
+                collection = collection.OrderByDescending(x => x.Name).ToList();
             }
             else
             {
-                result = collection.OrderBy(x => x.Name).ToList();
+                collection = collection.OrderBy(x => x.Name).ToList();
             }
-            return result;
+            return collection;
         }
         /// <summary>
         /// Sorting by Price for products collection
@@ -79,16 +78,15 @@ namespace InternetShop.Logic.Filtering
         {
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
-            IEnumerable<Product> result;
             if (order == "descending")
             {
-                result = collection.OrderByDescending(x => x.Price).ToList();
+                collection = collection.OrderByDescending(x => x.Price).ToList();
             }
             else
             {
-                result = collection.OrderBy(x => x.Price).ToList();
+                collection = collection.OrderBy(x => x.Price).ToList();
             }
-            return result;
+            return collection;
         }
 
 

@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using InternetShop.Data.Models;
 using InternetShop.Logic.Services.Interfaces;
+using InternetShop.Presentation.Filters.Exceptions;
 
 namespace InternetShop.Controllers
 {
     [Authorize]
+    [TypeFilter(typeof(DbConnectionExceptionAttribute))]
     public class OrdersController : Controller
     {
         private readonly IProductService _productService;

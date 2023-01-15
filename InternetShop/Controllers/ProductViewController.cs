@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using InternetShop.Presentation.Filters.Exceptions;
 
 namespace InternetShop.Presentation.Controllers
 {
+    [TypeFilter(typeof(ExceptionFilterAttribute))]
     public class ProductViewController : Controller
     {   
         // product view controller

@@ -59,7 +59,7 @@ namespace InternetShop.Data.Context
                     return shops;
                 });
                 if (!entities.Any()) 
-                    throw new NullReferenceException("Mao location was not found!");
+                    throw new NullReferenceException("Map location was not found!");
                 else return entities.First();
             }
             catch (ServiceUnavailableException)

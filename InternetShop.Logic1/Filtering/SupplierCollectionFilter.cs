@@ -8,6 +8,8 @@ namespace InternetShop.Logic.Filtering
         public IEnumerable<Supplier> Filtering(IEnumerable<Supplier> suppliers, IEnumerableFilter<Supplier>.FilterDelegate filter)
         {
             var collection = new List<Supplier>();
+            if (suppliers == null)
+                return collection;
             foreach (var supplier in suppliers)
             {
                 if (filter(supplier))

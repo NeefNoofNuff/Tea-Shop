@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using InternetShop.Logic.Services.Interfaces;
 using InternetShop.Logic.Services;
-using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.Data.SqlClient;
+using InternetShop.Presentation.Filters.Exceptions;
 
 namespace InternetShop.Controllers
 {
+    [TypeFilter(typeof(ExceptionFilterAttribute))]
     public class SupplierController : Controller
     {   
         private readonly ISupplierService _supplierService;

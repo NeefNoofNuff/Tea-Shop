@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Neo4j.Driver;
 using System.Globalization;
 using InternetShop.Data.Models;
+using InternetShop.Presentation.Filters.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,7 +46,11 @@ builder.Services.AddScoped<IEnumerableFilter<Supplier>, SupplierCollectionFilter
 builder.Services.AddScoped<IEnumerableOrdering<Product>, ProductCollectionOrdering>();
 builder.Services.AddScoped<IEnumerableOrdering<Supplier>, SupplierCollectionOrdering>();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+    { 
+        //options.Filters.Add(new ExceptionFilterAttribute());
+        options.Filters.Add(new DbConnectionExceptionAttribute());
+    });
 
 builder.Services.AddSingleton
     (GraphDatabase.Driver(

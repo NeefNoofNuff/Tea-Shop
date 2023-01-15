@@ -65,10 +65,7 @@ namespace InternetShop.Logic.Repository
             {
                 throw new JsonException("Json was not serialized!");
             }
-            catch (NullReferenceException)
-            {
-                _mapContext.Remove(id);
-            }
+            _mapContext.Remove(id);
         }
 
         public void Update(Shop shop)

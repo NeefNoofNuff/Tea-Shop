@@ -46,16 +46,15 @@ namespace InternetShop.Logic.Filtering
         {
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
-            IEnumerable<Supplier> suppliers;
             if (order == "descending")
             {
-                suppliers = collection.OrderByDescending(x => x.Id).ToList();
+                collection = collection.OrderByDescending(x => x.Id).ToList();
             }
             else
             {
-                suppliers = collection.OrderBy(x => x.Id).ToList();
+                collection = collection.OrderBy(x => x.Id).ToList();
             }
-            return suppliers;
+            return collection;
         }
         /// <summary>
         /// Sorting by Company and Name for any collection
@@ -67,16 +66,15 @@ namespace InternetShop.Logic.Filtering
         {
             if (collection == null)
                 throw new ArgumentNullException(nameof(collection));
-            IEnumerable<Supplier> suppliers;
             if (order == "descending")
             {
-                suppliers = collection.OrderByDescending(x => x.CompanyName).ThenByDescending(x => x.LastName).ToList();
+                collection = collection.OrderByDescending(x => x.CompanyName).ThenByDescending(x => x.LastName).ToList();
             }
             else
             {
-                suppliers = collection.OrderBy(x => x.CompanyName).ThenBy(x => x.LastName).ToList();
+                collection = collection.OrderBy(x => x.CompanyName).ThenBy(x => x.LastName).ToList();
             }
-            return suppliers;
+            return collection;
         }
         /// <summary>
         /// Sorting by Price of products for suppliers

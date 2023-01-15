@@ -1,9 +1,11 @@
 ﻿using InternetShop.Data.Models;
+using InternetShop.Presentation.Filters.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
 namespace InternetShop.Controllers
 {
+    [TypeFilter(typeof(ExceptionFilterAttribute))]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
