@@ -11,8 +11,8 @@ namespace InternetShop.Controllers
     public class SupplierController : Controller
     {   
         private readonly ISupplierService _supplierService;
-        private readonly PagingTools _pagingTools;
-        public SupplierController(ISupplierService supplierService, PagingTools pagingTools)
+        private readonly IPaging _pagingTools;
+        public SupplierController(ISupplierService supplierService, IPaging pagingTools)
         {
             _supplierService = supplierService;
             _pagingTools = pagingTools;

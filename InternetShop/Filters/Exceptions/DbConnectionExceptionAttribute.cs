@@ -9,11 +9,17 @@ namespace InternetShop.Presentation.Filters.Exceptions
         {
             if (context.Exception is Neo4j.Driver.ServiceUnavailableException)
             {
-                context.Result = new JsonResult("Map database is off. Please report this issue to the company.");
+                context.Result = new ContentResult
+                {
+                    Content = "Map database is off. Please report this issue to the company."
+                };
             }
             if(context.Exception is CouchDB.Driver.Exceptions.CouchException)
             {
-                context.Result = new JsonResult("Invoice database is off. Cannot proceede with the order. Please report this issue to the company.");
+                context.Result = new ContentResult
+                {
+                    Content = "Invoice database is off. Cannot proceede with the order. Please report this issue to the company."
+                };
             }
         }
     }

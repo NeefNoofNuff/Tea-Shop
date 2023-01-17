@@ -13,9 +13,9 @@ namespace InternetShop.Controllers
     {
         private readonly IProductService _productService;
         private readonly ISupplierService _supplierService;
-        private readonly PagingTools _pagingTools;
+        private readonly IPaging _pagingTools;
 
-        public ProductsController(IProductService productService, ISupplierService supplierService, PagingTools pagingTools)
+        public ProductsController(IProductService productService, ISupplierService supplierService, IPaging pagingTools)
         {
             _productService = productService;
             _supplierService = supplierService;
@@ -96,7 +96,7 @@ namespace InternetShop.Controllers
         // GET: Products/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            ViewBag.Suppliers = _supplierService.GetAll();
+            ViewBag.Suppliers = await _supplierService.GetAll();
 
             if (id == null)
             {

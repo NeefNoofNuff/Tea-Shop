@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<InternetShop.Data.Models.Product>
+
+@{
     ViewData["Title"] = "SlayTea Shop";
 }
 <head>
@@ -16,5 +18,29 @@
         <img src="https://i.pinimg.com/564x/52/23/14/522314a861a62c03b9c0b1f21d25cdbe.jpg" alt="" class="pic" width="300" height="400">
     </div>
 </div>
+
+<div class="products">
+    <h2>Product</h2>
+    <h3>Choose your tea</h3>
+    <div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-sm-2">
+            <div class="card">
+                <img src="img/@item.Id.ToString()+.jpg" alt="Card image cap" style="border-radius:50%; max-height:250px;">
+                <div class="card-body">
+                    <h5 class="card-title">@Html.DisplayFor(modelItem => item.Name)</h5>
+                    <h6 class="card-subtitle mb-2 text-muted">@Html.DisplayFor(modelItem => item.Price) ₴</h6>
+                    <p class="card-text">
+                            Available: @Html.DisplayFor(modelItem => item.UnitInStock) box<br>
+                            Made by: @Html.DisplayFor(modelItem => item.Supplier.CompanyName)
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+    </div>
+</div>
+
 
 

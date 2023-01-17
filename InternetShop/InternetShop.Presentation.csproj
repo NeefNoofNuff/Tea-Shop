@@ -29,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Filters\Actions\" />
-    <Folder Include="wwwroot\img\" />
   </ItemGroup>
 
   <ItemGroup>

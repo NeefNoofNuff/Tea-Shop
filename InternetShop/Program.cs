@@ -11,6 +11,7 @@ using Neo4j.Driver;
 using System.Globalization;
 using InternetShop.Data.Models;
 using InternetShop.Presentation.Filters.Exceptions;
+using InternetShop.Logic.Validation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -46,11 +47,17 @@ builder.Services.AddScoped<IEnumerableFilter<Supplier>, SupplierCollectionFilter
 builder.Services.AddScoped<IEnumerableOrdering<Product>, ProductCollectionOrdering>();
 builder.Services.AddScoped<IEnumerableOrdering<Supplier>, SupplierCollectionOrdering>();
 
+builder.Services.AddScoped<IPaging, PagingTools>();
+
 builder.Services.AddControllers(options =>
     { 
         //options.Filters.Add(new ExceptionFilterAttribute());
         options.Filters.Add(new DbConnectionExceptionAttribute());
     });
+
+builder.Services.AddTransient<OrderValidator>();
+builder.Services.AddTransient<ProductValidator>();
+builder.Services.AddTransient<SupplierValidator>();
 
 builder.Services.AddSingleton
     (GraphDatabase.Driver(

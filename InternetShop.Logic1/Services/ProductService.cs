@@ -52,7 +52,7 @@ namespace InternetShop.Logic.Services
         {
             try
             {
-                return _productRepository.Get(id);
+                return  _productRepository.Get(id);
             }
             catch (Exception)
             {
@@ -91,7 +91,7 @@ namespace InternetShop.Logic.Services
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                products = _filtering.Filtering(products, product => product.Name.Contains(searchString));
+                products = _filtering.Filtering(products, product => product.Name.Contains(searchString, StringComparison.InvariantCultureIgnoreCase));
             }
 
             products = _sorting.Sort(products, sortOrder);

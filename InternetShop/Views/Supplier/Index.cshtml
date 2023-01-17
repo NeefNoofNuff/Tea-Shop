@@ -12,12 +12,12 @@
 
 <p>
     Sort By:
-    @Html.ActionLink("Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })
+    @Html.ActionLink("Company Name", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter=ViewBag.CurrentFilter })
 </p>
 @using (Html.BeginForm("Index", "Supplier", FormMethod.Get))
 {
     <p>
-        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as String)
+        Find by company name or last name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as String)
         <input type="submit" value="Search" />
     </p>
 }

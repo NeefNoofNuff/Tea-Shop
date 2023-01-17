@@ -39,7 +39,7 @@ namespace InternetShop.Logic.Services
                 var order = await _orderRepository.Get(id);
                 if(order == null)
                     throw new NullReferenceException("Order was not found!");
-                return await _orderRepository.Get(id);
+                return order;
 
             }
             catch (Exception)

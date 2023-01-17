@@ -1,7 +1,7 @@
 ﻿using InternetShop.Data.Context;
 using InternetShop.Data.Models;
 
-namespace InternetShopTesting
+namespace InternetShop.Testing
 {
     internal class ShoppingQuery
     {
@@ -14,12 +14,12 @@ namespace InternetShopTesting
 
         public IEnumerable<Product> ExecuteProduct()
         {
-            return _context.Products.Select(product => product);
+            return _context.Products.Select(product => product).ToList();
         }
 
         public IEnumerable<Supplier> ExecuteSuppliers()
         {
-            return _context.Suppliers.Select(supp => supp);
+            return _context.Suppliers.Select(supp => supp).ToList();
         }
     }
 }
