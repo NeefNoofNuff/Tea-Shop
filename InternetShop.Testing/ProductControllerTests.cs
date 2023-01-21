@@ -1,26 +1,29 @@
 ﻿using InternetShop.Controllers;
 using InternetShop.Data.Models;
 using InternetShop.Logic.Repository.Interfaces;
+using InternetShop.Logic.Services;
+using InternetShop.Logic.Services.Interfaces;
 using Moq;
 
-namespace InternetShopTesting
+namespace InternetShop.Testing
 {
     public class ProductControllerTests
     {
-        private readonly SupplierController _productController;
-        private Mock<ISupplierRepository> _supplierMock;
-        private Mock<IShoppingRepository> _productMock;
+        private readonly PagingTools _pagingTools;
+        private Mock<ISupplierService> _supplierMock;
+        private Mock<IProductService> _productMock;
+
         public ProductsController GetController()
         {
-            return new ProductsController(_productMock.Object, _supplierMock.Object);
+            return new ProductsController(_productMock.Object, _supplierMock.Object, _pagingTools);
         }
 
         [Fact]
         public async Task Get_Product_By_Existing_IdAsync()
         {
             // arrange
-            _supplierMock = new Mock<ISupplierRepository>();
-            _productMock = new Mock<IShoppingRepository>();
+            _supplierMock = new Mock<ISupplierService>();
+            _productMock = new Mock<IProductService>();
             var testid = 817;
             Product testProduct = new Product
             {
@@ -42,8 +45,8 @@ namespace InternetShopTesting
         [Fact]
         public async Task Create_ProductAsync()
         {
-            _supplierMock = new Mock<ISupplierRepository>();
-            _productMock = new Mock<IShoppingRepository>();
+            _supplierMock = new Mock<ISupplierService>();
+            _productMock = new Mock<IProductService>();
             Product testProduct = new Product
             {
                 Id = 817,
@@ -57,38 +60,34 @@ namespace InternetShopTesting
 
             var result = await controller.Create(testProduct);
 
-            //var deleting = controller.ProductExists(testProduct.Id);
-
             Assert.NotNull(result);
         }
         [Fact]
-        public async Task Deleted_Product()
+        public async Task Delete_Product()
         {
-            _supplierMock = new Mock<ISupplierRepository>();
-            _productMock = new Mock<IShoppingRepository>();
+            _supplierMock = new Mock<ISupplierService>();
+            _productMock = new Mock<IProductService>();
             Product testProduct = new Product
             {
-                Id = 817,
-                Name = "Shen Puer Tea «Lapis Dragon»",
+                Id = 100,
+                Name = "Shen Puer Tea «Lapis Dragon» TEST",
                 Price = 223,
                 UnitInStock = 50.0,
                 SupplierId = 1
             };
-            _productMock.Setup(x => x.Delete(It.IsAny<Product>())).Returns(Task.FromResult(testProduct));
-
+            _productMock.Setup(x => x.Delete(100)).Returns(Task.FromResult(testProduct));
             var controller = GetController();
-
+            Assert.NotNull(controller);
             var result = await controller.Delete(testProduct.Id);
-
-            Assert.Equal("Microsoft.AspNetCore.Mvc.NotFoundResult", Task.FromResult(result).Result.ToString());
+            Assert.IsType<Microsoft.AspNetCore.Mvc.ViewResult>(await Task.FromResult(result));
         }
 
         [Fact]
 
         public Task GetAllProducts()
         {
-            _productMock = new Mock<IShoppingRepository>();
-            _supplierMock = new Mock<ISupplierRepository>();
+            _supplierMock = new Mock<ISupplierService>();
+            _productMock = new Mock<IProductService>();
             Product testProduct = new Product
             {
                 Id = 817,

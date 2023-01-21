@@ -9,13 +9,12 @@ namespace InternetShop.Data.Context
         public DbSet<SuperMarket> SuperMarkets { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
-
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
         public ShoppingContext(DbContextOptions<ShoppingContext> options)
             : base(options)
         {
-            //Database.EnsureCreated();
+            Database.EnsureCreated();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

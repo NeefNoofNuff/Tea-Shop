@@ -1,12 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using InternetShop.Presentation.Filters.Exceptions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
 
 namespace InternetShop.Controllers
 {
-    
+    [TypeFilter(typeof(ExceptionFilterAttribute))]
     public class RoleController : Controller
     {
         RoleManager<IdentityRole> roleManager;

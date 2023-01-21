@@ -1,5 +1,6 @@
 html {
     font-size: 14px;
+    overflow-x:hidden;
 }
 
 @media (min-width: 768px) {
@@ -61,6 +62,7 @@ html, body {
         left: calc(50% - 150px);
         opacity: 0;
         animation: display 17.5s infinite;
+        margin-bottom: 10%;
     }
 
 img:nth-child(2) {
@@ -77,4 +79,10 @@ img:nth-child(4) {
 
 img:nth-child(5) {
     animation-delay: 14s;
+}
+
+div.products {
+    position: absolute;
+    top: 800px;
+    left: 5px;
 }

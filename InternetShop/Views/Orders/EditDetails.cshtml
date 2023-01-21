@@ -15,10 +15,11 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             @for (int i = 0; i < Model.Count(); i++)
             {
-                @(i + 1)<br>
-                @Model[i].Product.Name<br>
-                @Html.HiddenFor(m => Model[i].ProductId)
-                @Html.TextBoxFor(m => Model[i].Units)<br>
+                <div style="margin-top:2%;">
+                    <p>@Model[i].Product.Name</p>
+                    <div>@Html.TextBoxFor(m => Model[i].Units, new { Class="form-control", Style="margin:2%;"})</div>
+                    @Html.HiddenFor(m => Model[i].ProductId)
+                </div>
             }
             <div class="form-group">
                 <input type="submit" value="Next" class="btn btn-primary" />

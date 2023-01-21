@@ -1,24 +1,28 @@
 using InternetShop.Controllers;
-using InternetShop.Logic.Repository.Interfaces;
+using InternetShop.Logic.Services.Interfaces;
 using InternetShop.Data.Models;
 using Moq;
+using InternetShop.Logic.Services;
+using X.PagedList;
 
-namespace InternetShopTesting
+namespace InternetShop.Testing
 {
     public class SupplierContollerTest
-    {   
-        private readonly SupplierController _productController;
-        private Mock<ISupplierRepository> _supplierMock;
+    {
+        private Mock<IPaging> _pagingTools;
+        private Mock<ISupplierService> _supplierMock;
+        
         public SupplierController GetController()
         {
-            return new SupplierController(_supplierMock.Object);
+            return new SupplierController(_supplierMock.Object, _pagingTools.Object);
         }
 
         [Fact]
         public async Task Get_Supplier_By_Existing_IdAsync()
         {
             // arrange
-            _supplierMock = new Mock<ISupplierRepository>();
+            _supplierMock = new Mock<ISupplierService>();
+            _pagingTools = new Mock<IPaging>();
             var testid = 5;
             Supplier testSupplier = new Supplier
             {
@@ -39,7 +43,8 @@ namespace InternetShopTesting
         [Fact]
         public async Task Create_SupplierAsync()
         {
-            _supplierMock = new Mock<ISupplierRepository>();
+            _supplierMock = new Mock<ISupplierService>();
+            _pagingTools = new Mock<IPaging>();
             Supplier testSupplier = new Supplier
             {
                 Id = 7,
@@ -58,7 +63,8 @@ namespace InternetShopTesting
         [Fact]
         public async Task Deleted_Supplier()
         {
-            _supplierMock = new Mock<ISupplierRepository>();
+            _supplierMock = new Mock<ISupplierService>();
+            _pagingTools = new Mock<IPaging>();
             Supplier testSupplier = new Supplier
             {
                 Id = 7,
@@ -67,20 +73,22 @@ namespace InternetShopTesting
                 CompanyName = "Tea Side",
                 PhoneNumber = "0964512756"
             };
-            _supplierMock.Setup(x => x.Delete(It.IsAny<Supplier>())).Returns(Task.FromResult(testSupplier));
+            _supplierMock.Setup(x => x.Delete(7)).Returns(Task.FromResult(testSupplier));
 
             var controller = GetController();
 
             var result = await controller.Delete(testSupplier.Id);
 
-            Assert.Equal("Microsoft.AspNetCore.Mvc.NotFoundResult", Task.FromResult(result).Result.ToString());
+            Assert.IsType<Microsoft.AspNetCore.Mvc.RedirectToActionResult>(await Task.FromResult(result));
         }
 
         [Fact]
 
         public async Task GetAllSuppliers()
         {
-            _supplierMock = new Mock<ISupplierRepository>();
+            _supplierMock = new Mock<ISupplierService>();
+            _pagingTools = new Mock<IPaging>();
+            var productMock = new Mock<IProductService>();
             Supplier testSupplier = new Supplier
             {
                 Id = 7,
@@ -98,7 +106,9 @@ namespace InternetShopTesting
             
             var controller = GetController();
 
-            var result = await controller.Index();
+            _pagingTools.Setup(x => x.PageViewSupplierAsync(PagingTools.SortingByNameDesc, "", 1)).Returns(Task.FromResult(testlist.ToPagedList(1, PagingTools.ElementsPerPage)));
+
+            var result = await controller.Index(PagingTools.SortingByNameDesc, "", "", 1);
 
             Assert.Equal("Microsoft.AspNetCore.Mvc.ViewResult", Task.FromResult(result).Result.ToString());
         }

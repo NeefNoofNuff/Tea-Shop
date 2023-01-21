@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.VisualStudio.TestPlatform.TestHost;
 
-namespace InternetShopTesting
+namespace InternetShop.Testing
 {
     public class IntegrationTests : IClassFixture<WebApplicationFactory<Program>>
     {
@@ -17,8 +17,12 @@ namespace InternetShopTesting
         [InlineData("/Home")]
         [InlineData("/Map")]
         [InlineData("/Products")]
-        [InlineData("/Role")]
+        [InlineData("/Products/Create")]
+        [InlineData("/Roles")]
         [InlineData("/Supplier")]
+        [InlineData("/Orders")]
+        [InlineData("/Orders/Create")]
+        
         public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
         {
             // Arrange

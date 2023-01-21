@@ -1,4 +1,5 @@
 ﻿using InternetShop.Data.Models;
+using InternetShop.Logic.Filtering.Interfaces;
 using InternetShop.Logic.Repository.Interfaces;
 using InternetShop.Logic.Services.Interfaces;
 
@@ -7,10 +8,16 @@ namespace InternetShop.Logic.Services
     public class SupplierService : ISupplierService
     {
         private readonly ISupplierRepository _supplierRepository;
+        private readonly IEnumerableOrdering<Supplier> _sorting;
+        private readonly IEnumerableFilter<Supplier> _filtering;
 
-        public SupplierService(ISupplierRepository supplierRepository)
+        public SupplierService(ISupplierRepository supplierRepository,
+            IEnumerableOrdering<Supplier> sorting,
+            IEnumerableFilter<Supplier> filtering)
         {
             _supplierRepository = supplierRepository;
+            _sorting = sorting;
+            _filtering = filtering;
         }
 
         public async Task Create(Supplier supplier)
@@ -74,6 +81,23 @@ namespace InternetShop.Logic.Services
             {
                 throw;
             }
+        }
+
+        public async Task<IEnumerable<Supplier>> Sort(string sortOrder, string searchString)
+        {
+            var suppliers = await GetAll();
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                suppliers = _filtering.Filtering(suppliers, 
+                    supplier => supplier.CompanyName.Contains(searchString) 
+                 || supplier.FirstName.Contains(searchString) 
+                 || supplier.LastName.Contains(searchString));
+            }
+
+            suppliers = _sorting.Sort(suppliers, sortOrder);
+
+            return suppliers;
         }
     }
 }

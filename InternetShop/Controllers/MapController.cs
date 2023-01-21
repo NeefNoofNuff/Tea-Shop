@@ -1,11 +1,13 @@
 ﻿using InternetShop.Data.Models;
-using InternetShop.Data.Context;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using InternetShop.Logic.Services.Interfaces;
+using InternetShop.Presentation.Filters.Exceptions;
 
 namespace InternetShop.Controllers
-{
+{ 
+    [TypeFilter(typeof(DbConnectionExceptionAttribute))]
+    //[TypeFilter(typeof(ExceptionFilterAttribute))]
     public class MapController : Controller
     {
         private readonly IMapService _mapService;
